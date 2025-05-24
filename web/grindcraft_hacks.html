@@ -65,7 +65,6 @@
             margin-bottom: 20px;
         }
 
-        /* Removed fixed font-size, now using Tailwind */
         .loading-text {
             color: #ffcc00; /* Yellow text */
             font-weight: bold;
@@ -143,7 +142,7 @@
             animation: shimmer 1.5s infinite linear;
         }
 
-        /* Styles for the enhanced temporary message box - Removed fixed padding, font-size, gap, min-width, and icon size, now using Tailwind */
+        /* Styles for the enhanced temporary message box */
         .message-box {
             position: fixed;
             top: 30px; /* Slightly lower */
@@ -175,9 +174,8 @@
             background: linear-gradient(45deg, #e74c3c, #c0392b); /* Brighter red gradient for error */
             border-color: #c0392b;
         }
-        /* Removed fixed icon size, now using Tailwind */
 
-        /* Section Divider - Removed fixed margin, now using Tailwind */
+        /* Section Divider */
         .section-divider {
             width: 80%;
             height: 4px; /* Thicker divider */
@@ -187,7 +185,7 @@
             animation: pulseGlow 5s infinite alternate ease-in-out; /* Divider also pulses */
         }
 
-        /* MIT License Popup Styles - Removed fixed padding, font-size, width, height, now using Tailwind */
+        /* MIT License Popup Styles */
         .mit-popup-backdrop {
             position: fixed;
             top: 0;
@@ -229,7 +227,6 @@
             transform: translateY(0); /* Slide into center */
         }
 
-        /* Removed fixed font-size, now using Tailwind */
         .mit-popup-content h3 {
             font-weight: 900;
             color: #007bff; /* Blue for title */
@@ -238,7 +235,6 @@
             text-shadow: 0 0 20px rgba(0, 123, 255, 0.9); /* Title glow */
         }
 
-        /* Removed fixed padding and font-size, now using Tailwind */
         .mit-popup-content pre {
             background-color: #0d0d0d;
             border: 2px solid #444; /* Thicker border */
@@ -253,7 +249,6 @@
             box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.6);
         }
 
-        /* Removed fixed width, height, font-size, now using Tailwind */
         .mit-popup-close-btn {
             position: absolute;
             top: 20px;
@@ -274,9 +269,116 @@
             transform: scale(1.15) rotate(180deg); /* More dramatic rotate on hover */
             box-shadow: 0 0 25px rgba(220, 53, 69, 1.2);
         }
+
+        /* Active Nav Link Style */
+        .active-nav-link {
+            color: #ffcc00 !important; /* Force yellow */
+            text-shadow: 0 0 15px rgba(255, 204, 0, 0.8), 0 0 30px rgba(255, 204, 0, 0.5); /* Stronger glow */
+            background-color: rgba(255, 204, 0, 0.1); /* Subtle yellow background */
+            border-radius: 0.5rem; /* Rounded corners */
+            transform: scale(1.05); /* Slightly larger */
+        }
+
+        /* Back to Top Button Style */
+        #backToTopBtn {
+            opacity: 0;
+            transform: scale(0);
+            transition: opacity 0.3s ease-out, transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Bouncy transition for show/hide */
+            box-shadow: 0 0 15px rgba(255, 204, 0, 0.7); /* Initial glow */
+            animation: backToTopPulse 2s infinite alternate ease-in-out; /* Pulsing animation */
+        }
+        #backToTopBtn.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+        #backToTopBtn:hover {
+            box-shadow: 0 0 35px rgba(255, 204, 0, 1.5); /* Intense glow on hover */
+            transform: scale(1.15); /* More pronounced pop */
+        }
+
+        /* New Keyframes for Back to Top Button */
+        @keyframes backToTopPulse {
+            0% { box-shadow: 0 0 15px rgba(255, 204, 0, 0.7); }
+            50% { box-shadow: 0 0 30px rgba(255, 204, 0, 1.2); }
+            100% { box-shadow: 0 0 15px rgba(255, 204, 0, 0.7); }
+        }
+
+        /* New Nav Bar Specific Styles */
+        @keyframes navSlideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes navLinkHoverGlow {
+            0% { box-shadow: 0 0 5px rgba(255, 204, 0, 0.2); }
+            50% { box-shadow: 0 0 20px rgba(255, 204, 0, 0.8); }
+            100% { box-shadow: 0 0 5px rgba(255, 204, 0, 0.2); }
+        }
+
+        @keyframes mobileMenuSlideIn {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        header {
+            animation: navSlideDown 0.8s ease-out forwards; /* Slide down animation for header */
+            border-bottom: none; /* Removed border from header */
+        }
+
+        .nav-link {
+            transition: all 0.3s ease-in-out; /* Smooth transition for all properties */
+            position: relative; /* Needed for pseudo-elements */
+            overflow: hidden; /* Hide overflow for ripple effect */
+        }
+
+        .nav-link:hover {
+            animation: navLinkHoverGlow 1.5s infinite alternate ease-in-out; /* Pulsing glow on hover */
+            background-color: rgba(255, 204, 0, 0.15); /* More distinct yellow background */
+            transform: translateY(-5px) scale(1.03); /* More pronounced lift and scale */
+            text-shadow: 0 0 15px rgba(255, 204, 0, 0.9), 0 0 25px rgba(255, 204, 0, 0.6); /* Stronger text glow */
+        }
+
+        .nav-link:hover i {
+            transform: rotate(10deg) scale(1.2); /* Rotate and scale icon on hover */
+            transition: transform 0.3s ease;
+        }
+
+        .active-nav-link {
+            border-bottom: none !important; /* Removed border from active nav link */
+            box-shadow: 0 0 30px rgba(255, 204, 0, 0.9); /* Even stronger glow for active */
+            transform: scale(1.07); /* Even larger for active */
+            background-color: rgba(255, 204, 0, 0.2); /* More prominent background for active */
+        }
+
+        #mobileMenuButton {
+            transition: all 0.3s ease-in-out; /* Smooth transition for mobile button */
+        }
+
+        #mobileMenuButton:hover {
+            background-color: rgba(255, 204, 0, 0.25); /* More distinct yellow background on hover */
+            transform: scale(1.2); /* More pronounced pop on hover */
+            box-shadow: 0 0 20px rgba(255, 204, 0, 0.8); /* Add a glow to the button itself */
+        }
+
+        #mobileMenuButton:hover svg {
+            transform: rotate(180deg); /* Full 180-degree rotate hamburger icon */
+            transition: transform 0.4s ease-out;
+        }
+
+        #mobileMenuOverlay.show {
+            animation: mobileMenuSlideIn 0.5s ease-out forwards; /* Slide in for mobile menu */
+        }
+        #mobileMenuOverlay.hidden {
+            animation: mobileMenuSlideIn 0.5s ease-out reverse forwards; /* Slide out for mobile menu */
+        }
+
+        /* Logo specific glow on hover */
+        .logo-hover-glow:hover {
+            text-shadow: 0 0 25px rgba(255, 204, 0, 1.8), 0 0 50px rgba(255, 204, 0, 1.2); /* Even stronger glow */
+        }
     </style>
 </head>
-<body class="text-gray-100 min-h-screen flex flex-col">
+<body class="text-gray-100 min-h-screen flex flex-col" id="main-body">
     <div id="loadingOverlay">
         <div class="loading-spinner"></div>
         <div class="loading-text text-xl sm:text-2xl md:text-3xl">LOADING...</div>
@@ -284,7 +386,54 @@
 
     <canvas id="particleCanvas"></canvas>
 
-    <div id="page-wrapper" class="flex-grow flex flex-col items-center p-4 sm:p-8 md:p-10 lg:p-12">
+    <header class="fixed top-0 left-0 w-full bg-gray-900 bg-opacity-90 backdrop-blur-sm z-50 shadow-lg py-4 px-6 md:px-10 lg:px-20">
+        <nav class="container mx-auto flex justify-between items-center">
+            <div class="flex flex-col items-start gap-0">
+                <a href="#" class="text-2xl sm:text-3xl font-extrabold text-yellow-400 hover:text-yellow-300 transition-colors duration-300 rounded-md p-2 hover:bg-gray-800/50 transform hover:scale-105 logo-hover-glow">
+                    <i class="fas fa-bolt mr-2"></i>Grindcraft Hacks
+                </a>
+                <span class="text-gray-500 text-xs sm:text-sm md:text-base font-mono ml-2">BY: @EXTREME-1234 v0.0.1[beta]</span>
+            </div>
+            <div class="hidden md:flex space-x-6 lg:space-x-8">
+                <a href="#about" class="nav-link text-gray-300 hover:text-yellow-400 hover:text-glow-yellow transition duration-300 px-3 py-2 rounded-md hover:bg-gray-700/40 font-semibold text-lg" data-target="about">
+                    <i class="fas fa-info-circle mr-2"></i>About
+                </a>
+                <a href="#how-to-use" class="nav-link text-gray-300 hover:text-yellow-400 hover:text-glow-yellow transition duration-300 px-3 py-2 rounded-md hover:bg-gray-700/40 font-semibold text-lg" data-target="how-to-use">
+                    <i class="fas fa-question-circle mr-2"></i>How To Use
+                </a>
+                <a href="#disclaimer" class="nav-link text-gray-300 hover:text-yellow-400 hover:text-glow-yellow transition duration-300 px-3 py-2 rounded-md hover:bg-gray-700/40 font-semibold text-lg" data-target="disclaimer">
+                    <i class="fas fa-exclamation-triangle mr-2"></i>Disclaimer
+                </a>
+                <a href="#connect" class="nav-link text-gray-300 hover:text-yellow-400 hover:text-glow-yellow transition duration-300 px-3 py-2 rounded-md hover:bg-gray-700/40 font-semibold text-lg" data-target="connect">
+                    <i class="fas fa-share-alt mr-2"></i>Connect
+                </a>
+            </div>
+            <button id="mobileMenuButton" class="md:hidden text-gray-300 hover:text-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-500 rounded-md p-2">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </nav>
+        <div id="mobileMenuOverlay" class="hidden md:hidden fixed inset-0 bg-gray-900 bg-opacity-95 z-40 flex flex-col items-center justify-center space-y-8 text-2xl font-bold transition-opacity duration-300 ease-in-out opacity-0 visibility-hidden">
+            <a href="#about" class="nav-link text-gray-300 hover:text-yellow-400 transition duration-300 px-3 py-2 rounded-md hover:bg-gray-800/50 w-full text-center" data-target="about">
+                <i class="fas fa-info-circle mr-2"></i>About
+            </a>
+            <a href="#how-to-use" class="nav-link text-gray-300 hover:text-yellow-400 transition duration-300 px-3 py-2 rounded-md hover:bg-gray-800/50 w-full text-center" data-target="how-to-use">
+                <i class="fas fa-question-circle mr-2"></i>How To Use
+            </a>
+            <a href="#disclaimer" class="nav-link text-gray-300 hover:text-yellow-400 transition duration-300 px-3 py-2 rounded-md hover:bg-gray-800/50 w-full text-center" data-target="disclaimer">
+                <i class="fas fa-exclamation-triangle mr-2"></i>Disclaimer
+            </a>
+            <a href="#connect" class="nav-link text-gray-300 hover:text-yellow-400 transition duration-300 px-3 py-2 rounded-md hover:bg-gray-800/50 w-full text-center" data-target="connect">
+                <i class="fas fa-share-alt mr-2"></i>Connect
+            </a>
+            <button id="closeMobileMenuButton" class="text-red-500 hover:text-red-400 mt-8 text-4xl focus:outline-none">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </header>
+
+    <div id="page-wrapper" class="flex-grow flex flex-col items-center p-4 sm:p-8 md:p-10 lg:p-12 pt-24 sm:pt-28 md:pt-32 lg:pt-36">
         <h1 class="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-extrabold mb-8 sm:mb-10 md:mb-14 text-glow-yellow tracking-tighter drop-shadow-lg animate-flickerGlow mx-auto">
             ⚡ Grindcraft Hacks
         </h1>
@@ -321,7 +470,7 @@
 
                 <div class="section-divider my-8 sm:my-10 md:my-12 animate-popIn animate-delay-600"></div>
 
-                <div class="section bg-gray-800 bg-opacity-70 p-6 sm:p-8 md:p-10 lg:p-12 rounded-3xl mb-10 sm:mb-12 md:mb-14 hover:scale-[1.005] hover:shadow-xl hover:shadow-yellow-600/50 transition-all duration-300 border border-gray-700 relative overflow-hidden animate-slideInUp animate-delay-700">
+                <div id="about" class="section bg-gray-800 bg-opacity-70 p-6 sm:p-8 md:p-10 lg:p-12 rounded-3xl mb-10 sm:mb-12 md:mb-14 hover:scale-[1.005] hover:shadow-xl hover:shadow-yellow-600/50 transition-all duration-300 border border-gray-700 relative overflow-hidden animate-slideInUp animate-delay-700">
                     <div class="absolute inset-0 bg-gradient-to-br from-gray-700/15 to-transparent pointer-events-none z-0"></div>
                     <div class="relative z-10">
                         <h2 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-yellow-400 mb-6 sm:mb-8 flex items-center justify-center gap-3 sm:gap-5 tracking-tight">
@@ -336,7 +485,7 @@
 
                 <div class="section-divider my-8 sm:my-10 md:my-12 animate-popIn animate-delay-800"></div>
 
-                <div class="section bg-gray-800 bg-opacity-70 p-6 sm:p-8 md:p-10 lg:p-12 rounded-3xl mb-10 sm:mb-12 md:mb-14 hover:scale-[1.005] hover:shadow-xl hover:shadow-yellow-600/50 transition-all duration-300 border border-gray-700 relative overflow-hidden animate-slideInUp animate-delay-900">
+                <div id="how-to-use" class="section bg-gray-800 bg-opacity-70 p-6 sm:p-8 md:p-10 lg:p-12 rounded-3xl mb-10 sm:mb-12 md:mb-14 hover:scale-[1.005] hover:shadow-xl hover:shadow-yellow-600/50 transition-all duration-300 border border-gray-700 relative overflow-hidden animate-slideInUp animate-delay-900">
                     <div class="absolute inset-0 bg-gradient-to-br from-gray-700/15 to-transparent pointer-events-none z-0"></div>
                     <div class="relative z-10">
                         <h2 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-yellow-400 mb-6 sm:mb-8 flex items-center justify-center gap-3 sm:gap-5 tracking-tight">
@@ -362,7 +511,7 @@
 
                 <div class="section-divider my-8 sm:my-10 md:my-12 animate-popIn animate-delay-1400"></div>
 
-                <div class="section bg-gray-800 bg-opacity-70 p-6 sm:p-8 md:p-10 lg:p-12 rounded-3xl mb-10 sm:mb-12 md:mb-14 hover:scale-[1.005] hover:shadow-xl hover:shadow-red-600/30 transition-all duration-300 border border-gray-700 relative overflow-hidden animate-slideInUp animate-delay-1500">
+                <div id="disclaimer" class="section bg-gray-800 bg-opacity-70 p-6 sm:p-8 md:p-10 lg:p-12 rounded-3xl mb-10 sm:mb-12 md:mb-14 hover:scale-[1.005] hover:shadow-xl hover:shadow-red-600/30 transition-all duration-300 border border-gray-700 relative overflow-hidden animate-slideInUp animate-delay-1500">
                     <div class="absolute inset-0 bg-gradient-to-br from-red-700/10 to-transparent pointer-events-none z-0"></div>
                     <div class="relative z-10">
                         <h2 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-red-400 mb-6 sm:mb-8 flex items-center justify-center gap-3 sm:gap-5 tracking-tight">
@@ -398,7 +547,7 @@
 
                 <div class="section-divider my-8 sm:my-10 md:my-12 animate-popIn animate-delay-1800"></div>
 
-                <div class="section bg-gray-800 bg-opacity-70 p-6 sm:p-8 md:p-10 lg:p-12 rounded-3xl mb-10 sm:mb-12 md:mb-14 hover:scale-[1.005] hover:shadow-xl hover:shadow-purple-600/30 transition-all duration-300 border border-gray-700 relative overflow-hidden animate-slideInUp animate-delay-1900">
+                <div id="connect" class="section bg-gray-800 bg-opacity-70 p-6 sm:p-8 md:p-10 lg:p-12 rounded-3xl mb-10 sm:mb-12 md:mb-14 hover:scale-[1.005] hover:shadow-xl hover:shadow-purple-600/30 transition-all duration-300 border border-gray-700 relative overflow-hidden animate-slideInUp animate-delay-1900">
                     <div class="absolute inset-0 bg-gradient-to-br from-purple-700/10 to-transparent pointer-events-none z-0"></div>
                     <div class="relative z-10">
                         <h2 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-purple-400 mb-6 sm:mb-8 flex items-center justify-center gap-3 sm:gap-5 tracking-tight">
@@ -477,6 +626,10 @@ SOFTWARE.
             </p>
         </div>
     </div>
+
+    <button id="backToTopBtn" class="fixed bottom-8 right-8 bg-yellow-500 text-gray-900 p-4 rounded-full shadow-lg z-40 hover:bg-yellow-400 focus:outline-none focus:ring-4 focus:ring-yellow-300">
+        <i class="fas fa-arrow-up text-2xl"></i>
+    </button>
 
     <script>
         // Function to show a temporary message
@@ -568,6 +721,134 @@ SOFTWARE.
                 document.body.style.overflow = '';
             }
         });
+
+        // --- Mobile Menu Logic ---
+        const mobileMenuButton = document.getElementById('mobileMenuButton');
+        const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+        const closeMobileMenuButton = document.getElementById('closeMobileMenuButton');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenuOverlay.classList.remove('hidden');
+            mobileMenuOverlay.classList.add('show'); // Trigger slide-in animation
+            mobileMenuOverlay.style.visibility = 'visible';
+            document.body.style.overflow = 'hidden';
+        });
+
+        closeMobileMenuButton.addEventListener('click', () => {
+            mobileMenuOverlay.classList.remove('show'); // Trigger slide-out animation
+            setTimeout(() => {
+                mobileMenuOverlay.classList.add('hidden');
+                mobileMenuOverlay.style.visibility = 'hidden';
+            }, 500); // Match animation duration
+            document.body.style.overflow = '';
+        });
+
+        // Close mobile menu when a link is clicked
+        mobileMenuOverlay.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenuOverlay.classList.remove('show');
+                setTimeout(() => {
+                    mobileMenuOverlay.classList.add('hidden');
+                    mobileMenuOverlay.style.visibility = 'hidden';
+                }, 500); // Match animation duration
+                document.body.style.overflow = '';
+            });
+        });
+
+        // --- Smooth Scrolling for all internal nav links ---
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // --- Active Navigation Link on Scroll ---
+        const sections = document.querySelectorAll('.section');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        const observerOptions = {
+            root: null, // viewport
+            rootMargin: '-50% 0px -50% 0px', // When section is in the middle of the viewport
+            threshold: 0 // No threshold needed, as we use rootMargin
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Remove active class from all links
+                    navLinks.forEach(link => link.classList.remove('active-nav-link'));
+
+                    // Add active class to the link corresponding to the intersecting section
+                    const targetId = entry.target.id;
+                    const activeLink = document.querySelector(`.nav-link[data-target="${targetId}"]`);
+                    if (activeLink) {
+                        activeLink.classList.add('active-nav-link');
+                    }
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // --- Back to Top Button Logic with CUSTOM SMOOTH SCROLL ---
+        const backToTopBtn = document.getElementById('backToTopBtn');
+
+        // Custom smooth scroll function
+        function customSmoothScrollToTop() {
+            const startPosition = window.scrollY;
+            const targetPosition = 0;
+            const distance = targetPosition - startPosition;
+            const duration = 800; // Longer duration for a more noticeable smooth scroll (milliseconds)
+            let startTime = null;
+
+            function animateScroll(currentTime) {
+                if (startTime === null) startTime = currentTime;
+                const timeElapsed = currentTime - startTime;
+
+                // Easing function: easeInOutQuad (for smoother start and end)
+                // Progress from 0 to 1
+                let progress = Math.min(timeElapsed / duration, 1);
+                let easedProgress;
+                if (progress < 0.5) {
+                    easedProgress = 2 * progress * progress;
+                } else {
+                    easedProgress = (-2 * progress * progress) + (4 * progress) - 1;
+                }
+
+                window.scrollTo(0, startPosition + distance * easedProgress);
+
+                if (timeElapsed < duration) {
+                    requestAnimationFrame(animateScroll);
+                }
+            }
+
+            requestAnimationFrame(animateScroll);
+        }
+
+        // Show/hide button on scroll
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) { // Show button after scrolling 300px
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+
+        // Use custom smooth scroll when button is clicked
+        backToTopBtn.addEventListener('click', () => {
+            customSmoothScrollToTop();
+        });
+
 
         // --- Particle Background Logic ---
         const canvas = document.getElementById('particleCanvas');
