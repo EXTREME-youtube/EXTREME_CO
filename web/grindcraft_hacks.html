@@ -71,9 +71,62 @@
             text-shadow: 0 0 10px rgba(255, 204, 0, 0.7);
         }
 
+        /* Enhanced Loading Bar Styles */
+        .loading-bar-container {
+            width: 80%; /* Adjust width as needed */
+            max-width: 400px; /* Max width for desktop */
+            height: 20px; /* Taller bar */
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden; /* Hide overflow of the progress bar */
+            margin-top: 20px; /* Space from text */
+            border: 2px solid rgba(255, 204, 0, 0.6); /* More prominent border */
+            box-shadow: 0 0 15px rgba(255, 204, 0, 0.5); /* Stronger glow */
+            position: relative; /* For the percentage text */
+        }
+
+        .loading-bar-progress {
+            width: 0%; /* Initial width */
+            height: 100%;
+            background: linear-gradient(90deg, #ffcc00, #ff8c00, #ff6347); /* Yellow to orange to tomato red gradient */
+            border-radius: 8px; /* Slightly smaller radius to show container border */
+            transition: width 0.3s ease-out; /* Smoother transition for width changes */
+            position: relative; /* For the shimmer effect */
+            overflow: hidden;
+        }
+
+        .loading-bar-progress::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent); /* Shimmer effect */
+            transform: translateX(-100%); /* Start off-screen left */
+            animation: shimmerEffect 2s infinite linear; /* Shimmer animation */
+        }
+
+        .loading-percentage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff; /* White text for percentage */
+            font-weight: bold;
+            font-size: 0.9rem; /* Slightly smaller font for percentage */
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+            z-index: 1; /* Ensure text is above shimmer */
+        }
+
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+
+        @keyframes shimmerEffect {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
 
         @keyframes fadeIn {
@@ -266,7 +319,7 @@
         }
         .mit-popup-close-btn:hover {
             background-color: #c82333;
-            transform: scale(1.15) rotate(180deg); /* More dramatic rotate on hover */
+            transform: scale(1.15) rotate(180deg);
             box-shadow: 0 0 25px rgba(220, 53, 69, 1.2);
         }
 
@@ -322,7 +375,7 @@
 
         header {
             animation: navSlideDown 0.8s ease-out forwards; /* Slide down animation for header */
-            border-bottom: none; /* Removed border from header */
+            border-bottom: none; /* Explicitly ensure no border on header */
         }
 
         .nav-link {
@@ -336,6 +389,7 @@
             background-color: rgba(255, 204, 0, 0.15); /* More distinct yellow background */
             transform: translateY(-5px) scale(1.03); /* More pronounced lift and scale */
             text-shadow: 0 0 15px rgba(255, 204, 0, 0.9), 0 0 25px rgba(255, 204, 0, 0.6); /* Stronger text glow */
+            border-bottom: none; /* Explicitly ensure no border on hover */
         }
 
         .nav-link:hover i {
@@ -344,7 +398,7 @@
         }
 
         .active-nav-link {
-            border-bottom: none !important; /* Removed border from active nav link */
+            border-bottom: none !important; /* Explicitly ensure no border on active state */
             box-shadow: 0 0 30px rgba(255, 204, 0, 0.9); /* Even stronger glow for active */
             transform: scale(1.07); /* Even larger for active */
             background-color: rgba(255, 204, 0, 0.2); /* More prominent background for active */
@@ -376,17 +430,129 @@
         .logo-hover-glow:hover {
             text-shadow: 0 0 25px rgba(255, 204, 0, 1.8), 0 0 50px rgba(255, 204, 0, 1.2); /* Even stronger glow */
         }
+
+        /* Styles for ALL clickable sections (both small feature boxes and large informational sections) */
+        .clickable-section {
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            position: relative;
+            overflow: hidden;
+            background-color: rgba(31, 41, 55, 0.7); /* Tailwind gray-800 with opacity */
+            border: 2px solid rgba(255, 204, 0, 0.3); /* Subtle yellow border */
+            box-shadow: 0 0 10px rgba(255, 204, 0, 0.2); /* Initial glow */
+        }
+
+        .clickable-section:hover {
+            background-color: rgba(40, 50, 60, 0.8); /* Slightly lighter on hover */
+            transform: translateY(-5px) scale(1.02); /* Lift and scale */
+            box-shadow: 0 0 25px rgba(255, 204, 0, 0.8), 0 0 50px rgba(255, 204, 0, 0.5); /* Stronger glow */
+            border-color: rgba(255, 204, 0, 0.7); /* More vibrant border */
+        }
+
+        .clickable-section i {
+            transition: transform 0.3s ease;
+        }
+
+        .clickable-section:hover i {
+            transform: scale(1.3) rotate(5deg); /* Larger icon and slight rotation */
+        }
+
+        /* Generic Info Popup Styles */
+        .info-popup-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1002; /* Higher than MIT popup */
+            opacity: 0;
+            transition: opacity 0.5s ease-out;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            visibility: hidden;
+        }
+        .info-popup-backdrop.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .info-popup-content {
+            background-color: #1c1c1c; /* Darker background */
+            border: 4px solid #ffcc00; /* Yellow border */
+            border-radius: 25px;
+            box-shadow: 0 0 50px rgba(255, 204, 0, 0.9); /* Intense yellow glow */
+            max-width: 900px;
+            width: 95%;
+            max-height: 90vh;
+            overflow-y: auto;
+            color: #e0e0e0;
+            position: relative;
+            transform: translateY(-70px);
+            opacity: 0;
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+        .info-popup-backdrop.show .info-popup-content {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .info-popup-content h3 {
+            font-weight: 900;
+            color: #ffcc00; /* Yellow for title */
+            margin-bottom: 30px;
+            text-align: center;
+            text-shadow: 0 0 20px rgba(255, 204, 0, 0.9);
+        }
+
+        .info-popup-content p {
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: #c0c0c0;
+        }
+
+        .info-popup-content ol li {
+            margin-bottom: 10px;
+        }
+
+        .info-popup-close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #dc3545; /* Red close button */
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 20px rgba(220, 53, 69, 0.9);
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .info-popup-close-btn:hover {
+            background-color: #c82333;
+            transform: scale(1.15) rotate(180deg);
+            box-shadow: 0 0 25px rgba(220, 53, 69, 1.2);
+        }
     </style>
 </head>
 <body class="text-gray-100 min-h-screen flex flex-col" id="main-body">
     <div id="loadingOverlay">
         <div class="loading-spinner"></div>
         <div class="loading-text text-xl sm:text-2xl md:text-3xl">LOADING...</div>
+        <div class="loading-bar-container">
+            <div class="loading-bar-progress" id="loadingProgressBar">
+                <span class="loading-percentage" id="loadingPercentage">0%</span>
+            </div>
+        </div>
     </div>
 
     <canvas id="particleCanvas"></canvas>
 
-    <header class="fixed top-0 left-0 w-full bg-gray-900 bg-opacity-90 backdrop-blur-sm z-50 shadow-lg py-4 px-6 md:px-10 lg:px-20">
+    <header class="fixed top-0 left-0 w-full bg-gray-900 bg-opacity-90 backdrop-blur-sm z-50 py-3 px-6 md:px-10 lg:px-20">
         <nav class="container mx-auto flex justify-between items-center">
             <div class="flex flex-col items-start gap-0">
                 <a href="#" class="text-2xl sm:text-3xl font-extrabold text-yellow-400 hover:text-yellow-300 transition-colors duration-300 rounded-md p-2 hover:bg-gray-800/50 transform hover:scale-105 logo-hover-glow">
@@ -395,6 +561,9 @@
                 <span class="text-gray-500 text-xs sm:text-sm md:text-base font-mono ml-2">BY: @EXTREME-1234 v0.0.1[beta]</span>
             </div>
             <div class="hidden md:flex space-x-6 lg:space-x-8">
+                <a href="https://extreme-youtube.github.io/EXTREME_CO/web/main_home.html" target="_blank" rel="noopener noreferrer" class="nav-link text-gray-300 hover:text-yellow-400 hover:text-glow-yellow transition duration-300 px-3 py-2 rounded-md hover:bg-gray-700/40 font-semibold text-lg">
+                    <i class="fas fa-home mr-2"></i>Home
+                </a>
                 <a href="#about" class="nav-link text-gray-300 hover:text-yellow-400 hover:text-glow-yellow transition duration-300 px-3 py-2 rounded-md hover:bg-gray-700/40 font-semibold text-lg" data-target="about">
                     <i class="fas fa-info-circle mr-2"></i>About
                 </a>
@@ -415,6 +584,9 @@
             </button>
         </nav>
         <div id="mobileMenuOverlay" class="hidden md:hidden fixed inset-0 bg-gray-900 bg-opacity-95 z-40 flex flex-col items-center justify-center space-y-8 text-2xl font-bold transition-opacity duration-300 ease-in-out opacity-0 visibility-hidden">
+            <a href="https://extreme-youtube.github.io/EXTREME_CO/web/main_home.html" target="_blank" rel="noopener noreferrer" class="nav-link text-gray-300 hover:text-yellow-400 transition duration-300 px-3 py-2 rounded-md hover:bg-gray-800/50 w-full text-center">
+                <i class="fas fa-home mr-2"></i>Home
+            </a>
             <a href="#about" class="nav-link text-gray-300 hover:text-yellow-400 transition duration-300 px-3 py-2 rounded-md hover:bg-gray-800/50 w-full text-center" data-target="about">
                 <i class="fas fa-info-circle mr-2"></i>About
             </a>
@@ -445,17 +617,22 @@
                     Skip the grind and level up <strong class="text-yellow-300 font-black">instantly</strong> with our powerful hacks!
                 </p>
 
-                <ul class="list-none p-0 mb-10 sm:mb-12 md:mb-14 space-y-4 sm:space-y-5 md:space-y-6 text-left mx-auto max-w-2xl">
-                    <li class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold text-gray-200 hover:text-yellow-400 hover:text-glow-yellow transition-all duration-300 flex items-center gap-3 sm:gap-4 md:gap-5 py-2 px-4 sm:py-3 sm:px-6 rounded-xl hover:bg-gray-700/40 transform hover:translate-x-3 hover:shadow-lg hover:shadow-yellow-500/20 animate-popIn animate-delay-200">
-                        <i class="fas fa-fire text-2xl sm:text-3xl md:text-4xl"></i> <span>Instant Progress Boost</span>
-                    </li>
-                    <li class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold text-gray-200 hover:text-yellow-400 hover:text-glow-yellow transition-all duration-300 flex items-center gap-3 sm:gap-4 md:gap-5 py-2 px-4 sm:py-3 sm:px-6 rounded-xl hover:bg-gray-700/40 transform hover:translate-x-3 hover:shadow-lg hover:shadow-blue-500/20 animate-popIn animate-delay-300">
-                        <i class="fas fa-rocket text-2xl sm:text-3xl md:text-4xl"></i> <span>Pre-Unlocked Items</span>
-                    </li>
-                    <li class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold text-gray-200 hover:text-yellow-400 hover:text-glow-yellow transition-all duration-300 flex items-center gap-3 sm:gap-4 md:gap-5 py-2 px-4 sm:py-3 sm:px-6 rounded-xl hover:bg-gray-700/40 transform hover:translate-x-3 hover:shadow-lg hover:shadow-green-500/20 animate-popIn animate-delay-400">
-                        <i class="fas fa-tools text-2xl sm:text-3xl md:text-4xl"></i> <span>Encoded Save Files</span>
-                    </li>
-                </ul>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 md:gap-10 mb-10 sm:mb-12 md:mb-14">
+                    <div class="clickable-section p-4 sm:p-6 rounded-xl text-center flex flex-col items-center justify-center" data-section-id="instant-progress-boost">
+                        <i class="fas fa-fire text-4xl sm:text-5xl md:text-6xl text-yellow-400 mb-3"></i>
+                        <span class="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-200">Instant Progress Boost</span>
+                    </div>
+
+                    <div class="clickable-section p-4 sm:p-6 rounded-xl text-center flex flex-col items-center justify-center" data-section-id="pre-unlocked-items">
+                        <i class="fas fa-rocket text-4xl sm:text-5xl md:text-6xl text-blue-400 mb-3"></i>
+                        <span class="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-200">Pre-Unlocked Items</span>
+                    </div>
+
+                    <div class="clickable-section p-4 sm:p-6 rounded-xl text-center flex flex-col items-center justify-center" data-section-id="encoded-save-files">
+                        <i class="fas fa-tools text-4xl sm:text-5xl md:text-6xl text-green-400 mb-3"></i>
+                        <span class="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-200">Encoded Save Files</span>
+                    </div>
+                </div>
 
                 <div class="flex flex-col sm:flex-row justify-center items-center gap-6 sm:gap-8 md:gap-10 mb-12 sm:mb-14 md:mb-16 animate-slideInUp animate-delay-500">
                     <button id="downloadHacksBtn"
@@ -470,7 +647,7 @@
 
                 <div class="section-divider my-8 sm:my-10 md:my-12 animate-popIn animate-delay-600"></div>
 
-                <div id="about" class="section bg-gray-800 bg-opacity-70 p-6 sm:p-8 md:p-10 lg:p-12 rounded-3xl mb-10 sm:mb-12 md:mb-14 hover:scale-[1.005] hover:shadow-xl hover:shadow-yellow-600/50 transition-all duration-300 border border-gray-700 relative overflow-hidden animate-slideInUp animate-delay-700">
+                <div id="about" class="clickable-section section bg-gray-800 bg-opacity-70 p-6 sm:p-8 md:p-10 lg:p-12 rounded-3xl mb-10 sm:mb-12 md:mb-14 relative overflow-hidden animate-slideInUp animate-delay-700" data-section-id="about-details">
                     <div class="absolute inset-0 bg-gradient-to-br from-gray-700/15 to-transparent pointer-events-none z-0"></div>
                     <div class="relative z-10">
                         <h2 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-yellow-400 mb-6 sm:mb-8 flex items-center justify-center gap-3 sm:gap-5 tracking-tight">
@@ -485,7 +662,7 @@
 
                 <div class="section-divider my-8 sm:my-10 md:my-12 animate-popIn animate-delay-800"></div>
 
-                <div id="how-to-use" class="section bg-gray-800 bg-opacity-70 p-6 sm:p-8 md:p-10 lg:p-12 rounded-3xl mb-10 sm:mb-12 md:mb-14 hover:scale-[1.005] hover:shadow-xl hover:shadow-yellow-600/50 transition-all duration-300 border border-gray-700 relative overflow-hidden animate-slideInUp animate-delay-900">
+                <div id="how-to-use" class="clickable-section section bg-gray-800 bg-opacity-70 p-6 sm:p-8 md:p-10 lg:p-12 rounded-3xl mb-10 sm:mb-12 md:mb-14 relative overflow-hidden animate-slideInUp animate-delay-900" data-section-id="how-to-use-details">
                     <div class="absolute inset-0 bg-gradient-to-br from-gray-700/15 to-transparent pointer-events-none z-0"></div>
                     <div class="relative z-10">
                         <h2 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-yellow-400 mb-6 sm:mb-8 flex items-center justify-center gap-3 sm:gap-5 tracking-tight">
@@ -493,16 +670,16 @@
                         </h2>
                         <p class="text-base sm:text-lg md:text-xl lg:text-2xl mb-8 sm:mb-10 leading-relaxed text-gray-300 text-center">Follow these steps to get started:</p>
                         <ol class="list-decimal list-inside space-y-4 sm:space-y-5 md:space-y-6 text-left pl-4 sm:pl-6 md:pl-10 text-gray-200">
-                            <li class="hover:text-yellow-400 hover:text-glow-yellow transition-all duration-300 flex items-start gap-3 sm:gap-4 py-1 sm:py-2 animate-popIn animate-delay-1000">
+                            <li class="py-1 sm:py-2">
                                 <span class="font-black text-yellow-300 text-xl sm:text-2xl md:text-3xl">1.</span> <span class="text-base sm:text-lg md:text-xl lg:text-2xl"><strong class="text-yellow-300">📥 Download</strong> the Hacks.json file.</span>
                             </li>
-                            <li class="hover:text-yellow-400 hover:text-glow-yellow transition-all duration-300 flex items-start gap-3 sm:gap-4 py-1 sm:py-2 animate-popIn animate-delay-1100">
+                            <li class="py-1 sm:py-2">
                                 <span class="font-black text-yellow-300 text-xl sm:text-2xl md:text-3xl">2.</span> <span class="text-base sm:text-lg md:text-xl lg:text-2xl"><strong class="text-yellow-300">⚙️ Open</strong> Grindcraft and go to <strong class="text-yellow-300">Settings</strong>.</span>
                             </li>
-                            <li class="hover:text-yellow-400 hover:text-glow-yellow transition-all duration-300 flex items-start gap-3 sm:gap-4 py-1 sm:py-2 animate-popIn animate-delay-1200">
+                            <li class="py-1 sm:py-2">
                                 <span class="font-black text-yellow-300 text-xl sm:text-2xl md:text-3xl">3.</span> <span class="text-base sm:text-lg md:text-xl lg:text-2xl"><strong class="text-yellow-300">💾 Select Load Game</strong> and choose Hacks.json.</span>
                             </li>
-                            <li class="hover:text-yellow-400 hover:text-glow-yellow transition-all duration-300 flex items-start gap-3 sm:gap-4 py-1 sm:py-2 animate-popIn animate-delay-1300">
+                            <li class="py-1 sm:py-2">
                                 <span class="font-black text-yellow-300 text-xl sm:text-2xl md:text-3xl">4.</span> <span class="text-base sm:text-lg md:text-xl lg:text-2xl"><strong class="text-yellow-300">🎮 Enjoy instant upgrades</strong> and enhanced gameplay!</span>
                             </li>
                         </ol>
@@ -511,7 +688,7 @@
 
                 <div class="section-divider my-8 sm:my-10 md:my-12 animate-popIn animate-delay-1400"></div>
 
-                <div id="disclaimer" class="section bg-gray-800 bg-opacity-70 p-6 sm:p-8 md:p-10 lg:p-12 rounded-3xl mb-10 sm:mb-12 md:mb-14 hover:scale-[1.005] hover:shadow-xl hover:shadow-red-600/30 transition-all duration-300 border border-gray-700 relative overflow-hidden animate-slideInUp animate-delay-1500">
+                <div id="disclaimer" class="clickable-section section bg-gray-800 bg-opacity-70 p-6 sm:p-8 md:p-10 lg:p-12 rounded-3xl mb-10 sm:mb-12 md:mb-14 relative overflow-hidden animate-slideInUp animate-delay-1500" data-section-id="disclaimer-details">
                     <div class="absolute inset-0 bg-gradient-to-br from-red-700/10 to-transparent pointer-events-none z-0"></div>
                     <div class="relative z-10">
                         <h2 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-red-400 mb-6 sm:mb-8 flex items-center justify-center gap-3 sm:gap-5 tracking-tight">
@@ -624,6 +801,17 @@ SOFTWARE.
             <p class="text-center text-gray-400 text-xs sm:text-sm">
                 For more details, visit the official <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">MIT License page</a>.
             </p>
+        </div>
+    </div>
+
+    <div id="infoPopupBackdrop" class="info-popup-backdrop">
+        <div class="info-popup-content p-6 sm:p-8 md:p-12">
+            <button id="closeInfoPopupBtn" class="info-popup-close-btn w-10 h-10 text-xl sm:w-12 sm:h-12 sm:text-2xl">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3 class="text-3xl sm:text-4xl md:text-5xl mb-6" id="infoPopupTitle"></h3>
+            <div id="infoPopupContent" class="text-base sm:text-lg md:text-xl leading-relaxed text-gray-300">
+                </div>
         </div>
     </div>
 
@@ -771,6 +959,7 @@ SOFTWARE.
         });
 
         // --- Active Navigation Link on Scroll ---
+        // Note: The Home link is an external link, so it won't be part of the active scroll logic.
         const sections = document.querySelectorAll('.section');
         const navLinks = document.querySelectorAll('.nav-link');
 
@@ -932,13 +1121,132 @@ SOFTWARE.
         // Hide loading overlay when page is fully loaded
         window.addEventListener('load', () => {
             const loadingOverlay = document.getElementById('loadingOverlay');
-            // Introduce a 3-second delay before hiding the loading overlay
-            setTimeout(() => {
-                loadingOverlay.classList.add('hidden'); // Add hidden class to fade out and hide
-                // Initialize particles and start animation after loading is complete
-                initParticles();
-                animateParticles();
-            }, 3000); // 3000 milliseconds = 3 seconds
+            const loadingProgressBar = document.getElementById('loadingProgressBar');
+            const loadingPercentageText = document.getElementById('loadingPercentage'); // Get the percentage text element
+            let progress = 0;
+            const duration = 20000; // Total duration for the loading bar to fill (3 seconds)
+            const intervalTime = 50; // Update every 50ms
+
+            const interval = setInterval(() => {
+                progress += (intervalTime / duration) * 100; // Calculate progress percentage
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    loadingProgressBar.style.width = '100%'; // Ensure it's 100% at the end
+                    loadingPercentageText.textContent = '100%'; // Ensure percentage is 100%
+                    setTimeout(() => {
+                        loadingOverlay.classList.add('hidden'); // Hide overlay after bar fills
+                        initParticles();
+                        animateParticles();
+                    }, 500); // Small delay after bar fills before hiding overlay
+                }
+                loadingProgressBar.style.width = progress + '%';
+                loadingPercentageText.textContent = Math.floor(progress) + '%'; // Update percentage text
+            }, intervalTime);
+        });
+
+        // --- Generic Info Popup Logic ---
+        const infoPopupBackdrop = document.getElementById('infoPopupBackdrop');
+        const closeInfoPopupBtn = document.getElementById('closeInfoPopupBtn');
+        const infoPopupTitle = document.getElementById('infoPopupTitle');
+        const infoPopupContent = document.getElementById('infoPopupContent');
+        // Select ALL clickable sections
+        const clickableSections = document.querySelectorAll('.clickable-section');
+
+        // Data for all clickable sections
+        const sectionContent = {
+            'instant-progress-boost': {
+                title: '🚀 Instant Progress Boost',
+                content: `
+                    <p>With our Instant Progress Boost, you no longer have to spend countless hours grinding for resources and experience. This hack automatically fills your inventories with rare materials, levels up your skills, and completes challenging objectives, allowing you to jump straight into the advanced stages of Grindcraft.</p>
+                    <p>Experience the thrill of rapid advancement and unlock new crafting recipes and powerful upgrades without the tedious wait. Dominate the game from the moment you start!</p>
+                `
+            },
+            'pre-unlocked-items': {
+                title: '✨ Pre-Unlocked Items',
+                content: `
+                    <p>Tired of unlocking items one by one? Our Pre-Unlocked Items hack gives you immediate access to a vast array of tools, weapons, armor, and unique artifacts that are typically hidden behind progression walls.</p>
+                    <p>Equip yourself with the best gear, experiment with powerful combinations, and explore all the game has to offer without any restrictions. This feature ensures you have all the necessary items at your disposal to craft anything you desire.</p>
+                `
+            },
+            'encoded-save-files': {
+                title: '💾 Encoded Save Files',
+                content: `
+                    <p>Our hacks come in the form of specially encoded save files. This means you don't need to install complex software or modify game files manually. Simply download the provided Hacks.json file and load it directly within Grindcraft's settings.</p>
+                    <p>This method is safe, easy to use, and ensures compatibility with your game. It's the simplest way to apply powerful modifications and revert to your original save if you ever wish to.</p>
+                `
+            },
+            'about-details': {
+                title: 'What We Do',
+                content: `
+                    <p>Grindcraft Hacks is dedicated to enhancing your Grindcraft experience by providing tools that allow you to bypass the repetitive elements of the game. We create modified game save files that grant you access to a wealth of resources, accelerate your in-game progress, and enable extensive customization of your gameplay.</p>
+                    <p>Our goal is to let you focus on the creative and strategic aspects of Grindcraft, rather than the tedious grind. We aim to open up new possibilities for exploration and experimentation within the game world.</p>
+                `
+            },
+            'how-to-use-details': {
+                title: 'How to Use the Hack',
+                content: `
+                    <p>Using our Grindcraft hacks is straightforward and requires no technical expertise. Just follow these simple steps:</p>
+                    <ol class="list-decimal list-inside space-y-2 text-gray-200 pl-4">
+                        <li><strong>📥 Download the Hacks.json file:</strong> Click the "Download Hacks" button on our main page to get the modified save file.</li>
+                        <li><strong>⚙️ Open Grindcraft and go to Settings:</strong> Launch your Grindcraft game and navigate to the in-game settings menu.</li>
+                        <li><strong>💾 Select Load Game and choose Hacks.json:</strong> Within the settings, locate the "Load Game" option. Browse to the downloaded Hacks.json file and select it to load.</li>
+                        <li><strong>🎮 Enjoy instant upgrades and enhanced gameplay:</strong> Once loaded, your game will be transformed! You'll find instant access to resources, unlocked items, and boosted progress, allowing you to enjoy Grindcraft without the usual limitations.</li>
+                    </ol>
+                    <p>Remember to always back up your original game save before loading any new files, just in case you wish to revert your progress.</p>
+                `
+            },
+            'disclaimer-details': {
+                title: 'Disclaimer',
+                content: `
+                    <p>This tool, "Grindcraft Hacks," is provided strictly for educational and entertainment purposes. It is intended for users who wish to explore game mechanics, experiment with accelerated progression, or simply enjoy a different facet of the Grindcraft experience.</p>
+                    <p>By using this tool, you acknowledge and agree that you do so at your own risk. We, the creators, are not responsible for any direct or indirect consequences that may arise from its use. This includes, but is not limited to, potential game bans, loss of game data, system instability, or any other adverse effects.</p>
+                    <p>We strongly advise all users to back up their original game data before utilizing any third-party tools or modified save files. Your game integrity and personal data are your responsibility.</p>
+                `
+            }
+        };
+
+        // Function to open the generic info popup
+        function openInfoPopup(sectionId) {
+            const details = sectionContent[sectionId];
+            if (details) {
+                infoPopupTitle.innerHTML = details.title;
+                infoPopupContent.innerHTML = details.content;
+                infoPopupBackdrop.classList.add('show');
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            } else {
+                showMessage('Content details not found.', 'error');
+            }
+        }
+
+        // Add click listeners to ALL elements with the .clickable-section class
+        clickableSections.forEach(section => {
+            section.addEventListener('click', () => {
+                const sectionId = section.dataset.sectionId;
+                openInfoPopup(sectionId);
+            });
+        });
+
+        // Function to close the generic info popup
+        closeInfoPopupBtn.addEventListener('click', () => {
+            infoPopupBackdrop.classList.remove('show');
+            document.body.style.overflow = ''; // Restore background scrolling
+        });
+
+        // Close popup if backdrop is clicked
+        infoPopupBackdrop.addEventListener('click', (event) => {
+            if (event.target === infoPopupBackdrop) {
+                infoPopupBackdrop.classList.remove('show');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Close popup with Escape key
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && infoPopupBackdrop.classList.contains('show')) {
+                infoPopupBackdrop.classList.remove('show');
+                document.body.style.overflow = '';
+            }
         });
     </script>
 </body>
