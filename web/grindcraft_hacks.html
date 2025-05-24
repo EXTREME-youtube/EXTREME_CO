@@ -498,6 +498,39 @@
             opacity: 1;
             transform: translateY(0);
         }
+        /* Custom Scrollbar Styles for WebKit and Firefox */
+        /* Applied to body and any element with 'custom-scrollbar' class */
+        body::-webkit-scrollbar,
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 12px; /* Width of the vertical scrollbar */
+            height: 12px; /* Height of the horizontal scrollbar */
+        }
+
+        body::-webkit-scrollbar-track,
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #2d3748; /* Darker background for the scrollbar track */
+            border-radius: 10px; /* Rounded corners for the track */
+        }
+
+        body::-webkit-scrollbar-thumb,
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #4a5568; /* Color of the scrollbar thumb */
+            border-radius: 10px; /* Rounded corners for the thumb */
+            border: 3px solid #2d3748; /* Padding around the thumb, matching track background */
+        }
+
+        body::-webkit-scrollbar-thumb:hover,
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background-color: #636b77; /* Lighter color on hover */
+        }
+
+        /* For Firefox (requires a different approach, less customization) */
+        body,
+        .custom-scrollbar {
+            scrollbar-width: thin; /* "auto" or "none" */
+            scrollbar-color: #4a5568 #2d3748; /* thumb color track color */
+        }
+
 
         .info-popup-content h3 {
             font-weight: 900;
@@ -539,7 +572,7 @@
         }
     </style>
 </head>
-<body class="text-gray-100 min-h-screen flex flex-col" id="main-body">
+<body class="text-gray-100 min-h-screen flex flex-col custom-scrollbar" id="main-body">
     <div id="loadingOverlay">
         <div class="loading-spinner"></div>
         <div class="loading-text text-xl sm:text-2xl md:text-3xl">LOADING...</div>
@@ -635,15 +668,27 @@
                 </div>
 
                 <div class="flex flex-col sm:flex-row justify-center items-center gap-6 sm:gap-8 md:gap-10 mb-12 sm:mb-14 md:mb-16 animate-slideInUp animate-delay-500">
-                    <button id="downloadHacksBtn"
-                       class="button bg-gradient-to-r from-yellow-500 to-yellow-600 text-gray-900 px-8 py-4 sm:px-10 sm:py-5 md:px-12 md:py-6 lg:px-14 lg:py-7 rounded-2xl text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black shadow-xl hover:from-yellow-600 hover:to-yellow-700 hover:scale-105 button-shadow-hover transition-all duration-300 transform active:scale-95 focus:outline-none focus:ring-4 focus:ring-yellow-300 flex items-center gap-3 sm:gap-4 md:gap-5 button-shimmer">
-                        <i class="fas fa-download text-2xl sm:text-3xl md:text-4xl"></i> <span>Download Hacks</span>
-                    </button>
-                    <a href="https://github.com/EXTREME-youtube/Grindcraft_Hacks" target="_blank" rel="noopener noreferrer"
-                       class="button bg-gradient-to-r from-gray-700 to-gray-800 text-white px-8 py-4 sm:px-10 sm:py-5 md:px-12 md:py-6 lg:px-14 lg:py-7 rounded-2xl text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black shadow-xl hover:from-gray-600 hover:to-gray-700 hover:scale-105 github-button-shadow-hover transition-all duration-300 transform active:scale-95 focus:outline-none focus:ring-4 focus:ring-gray-600 flex items-center gap-3 sm:gap-4 md:gap-5 button-shimmer">
-                        <i class="fab fa-github text-2xl sm:text-3xl md:text-4xl"></i> <span>Get That Hack from GitHub</span>
-                    </a>
-                </div>
+    <button id="downloadHacksBtn"
+        class="button bg-gradient-to-r from-yellow-500 to-yellow-600 text-gray-900 px-8 py-4 sm:px-10 sm:py-5 md:px-12 md:py-6 lg:px-14 lg:py-7 rounded-2xl text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black shadow-xl hover:from-yellow-600 hover:to-yellow-700 hover:scale-105 button-shadow-hover transition-all duration-300 transform active:scale-95 focus:outline-none focus:ring-4 focus:ring-yellow-300 flex flex-col items-center justify-center gap-1 sm:gap-2 button-shimmer">
+        <div class="flex items-center gap-3 sm:gap-4 md:gap-5">
+            <i class="fas fa-download text-2xl sm:text-3xl md:text-4xl"></i> <span>Download Hacks</span>
+        </div>
+        <span class="text-gray-700 text-xs sm:text-sm md:text-base font-mono">v0.0.1[beta]</span>
+    </button>
+</div>
+<a href="https://github.com/EXTREME-youtube/Grindcraft_Hacks" target="_blank" rel="noopener noreferrer"
+    class="button bg-gradient-to-r from-gray-700 to-gray-800 text-white px-8 py-4 sm:px-10 sm:py-5 md:px-12 md:py-6 lg:px-14 lg:py-7 rounded-2xl text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black shadow-xl hover:from-gray-600 hover:to-gray-700 hover:scale-105 github-button-shadow-hover transition-all duration-300 transform active:scale-95 focus:outline-none focus:ring-4 focus:ring-gray-600 flex items-center gap-3 sm:gap-4 md:gap-5 button-shimmer"
+    style="
+        border: 4px solid #00cfff; /* Thicker, vibrant border */
+        box-shadow: 0 0 25px #00cfff, 0 0 50px rgba(0, 207, 255, 0.6), inset 0 0 15px #00cfff; /* Multi-layered outer glow + inner glow */
+        text-shadow: 0 0 15px #00cfff, 0 0 25px rgba(0, 207, 255, 0.8); /* More intense, layered text glow */
+        filter: brightness(1.1); /* Slightly brighter by default for more pop */
+    ">
+    <i class="fab fa-github text-2xl sm:text-3xl md:text-4xl"
+        style="text-shadow: 0 0 12px #00cfff, 0 0 20px rgba(0, 207, 255, 0.8);"></i>
+    <span style="text-shadow: 0 0 12px #00cfff, 0 0 20px rgba(0, 207, 255, 0.8);">Get That Hack from GitHub</span>
+</a>
+
 
                 <div class="section-divider my-8 sm:my-10 md:my-12 animate-popIn animate-delay-600"></div>
 
@@ -746,6 +791,12 @@
                                class="button bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl text-lg sm:text-xl md:text-2xl font-bold shadow-lg hover:from-blue-700 hover:to-blue-800 hover:scale-105 transition-all duration-300 transform active:scale-95">
                                 <i class="fab fa-github text-xl sm:text-2xl md:text-3xl"></i> <span>GitHub</span>
                             </a>
+                            <a href="https://discord.gg/ADEsdeyyRq" target="_blank" rel="noopener noreferrer"
+    class="button bg-gradient-to-r from-indigo-600 to-indigo-700 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl text-lg sm:text-xl md:text-2xl font-bold shadow-lg hover:from-indigo-700 hover:to-indigo-800 hover:scale-105 transition-all duration-300 transform active:scale-95 focus:outline-none focus:ring-4 focus:ring-indigo-600 flex items-center gap-3 sm:gap-4 md:gap-5">
+    <i class="fab fa-discord text-xl sm:text-2xl md:text-3xl"></i> <span>Discord</span>
+</a>
+
+
                         </div>
                     </div>
                 </div>
@@ -771,13 +822,13 @@
         <i class="text-xl sm:text-2xl md:text-3xl"></i>
     </div>
 
-    <div id="mitLicensePopupBackdrop" class="mit-popup-backdrop">
-        <div class="mit-popup-content p-6 sm:p-8 md:p-12">
-            <button id="closeMitLicenseBtn" class="mit-popup-close-btn w-10 h-10 text-xl sm:w-12 sm:h-12 sm:text-2xl">
-                <i class="fas fa-times"></i>
-            </button>
-            <h3 class="text-3xl sm:text-4xl md:text-5xl">MIT License</h3>
-            <pre class="p-4 sm:p-6 text-sm sm:text-base">
+   <div id="mitLicensePopupBackdrop" class="mit-popup-backdrop">
+    <div class="mit-popup-content p-6 sm:p-8 md:p-12 custom-scrollbar">
+        <button id="closeMitLicenseBtn" class="mit-popup-close-btn w-10 h-10 text-xl sm:w-12 sm:h-12 sm:text-2xl">
+            <i class="fas fa-times"></i>
+        </button>
+        <h3 class="text-3xl sm:text-4xl md:text-5xl mb-4">MIT License</h3>
+        <pre class="p-4 sm:p-6 text-sm sm:text-base bg-gray-800 text-gray-200 rounded-lg overflow-auto max-h-96 custom-scrollbar mb-8">
 Copyright (c) 2025 EXTREME-youtube
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -797,20 +848,39 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-            </pre>
-            <p class="text-center text-gray-400 text-xs sm:text-sm">
-                For more details, visit the official <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">MIT License page</a>.
-            </p>
+        </pre>
+
+        <div class="mt-8 pt-6 border-t-2 border-gray-700">
+            <h4 class="text-2xl sm:text-3xl md:text-4xl mb-4 text-center text-yellow-400">Important Notes & Guidelines</h4>
+            <div class="bg-gray-800 text-gray-200 p-4 sm:p-6 rounded-lg text-sm sm:text-base">
+                <p class="mb-3">
+                    While the MIT License provides broad permissions, we appreciate you following these additional guidelines:
+                </p>
+                <ul class="list-disc list-inside space-y-2 ml-4">
+                    <li>**Attribution:** If you use this software, a shout-out to <a href="https://youtube.com/@extreme-1234" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">@extreme-1234</a> on YouTube is always appreciated!</li>
+                    <li>**Bug Reporting:** If you find any bugs or issues, please report them on the <a href="https://github.com/EXTREME-youtube/Grindcraft_Hacks/issues" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">GitHub Issues page</a>.</li>
+                    <li>**Suggestions:** Have ideas for improvements? We'd love to hear them! Feel free to open a discussion or pull request on GitHub.</li>
+                    <li>**Community:** Consider joining our Discord for discussions and updates (link in main project area).</li>
+                </ul>
+                <p class="mt-4 text-sm text-gray-400">
+                    These notes are not legal requirements but are highly encouraged for the growth of the project and community.
+                </p>
+            </div>
         </div>
+        <p class="text-center text-gray-400 text-xs sm:text-sm mt-8">
+            For more details on the MIT License itself, visit the official <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">MIT License page</a>.
+        </p>
     </div>
+</div>
+
 
     <div id="infoPopupBackdrop" class="info-popup-backdrop">
-        <div class="info-popup-content p-6 sm:p-8 md:p-12">
+        <div class="info-popup-content p-6 sm:p-8 md:p-12 custom-scrollbar">
             <button id="closeInfoPopupBtn" class="info-popup-close-btn w-10 h-10 text-xl sm:w-12 sm:h-12 sm:text-2xl">
                 <i class="fas fa-times"></i>
             </button>
             <h3 class="text-3xl sm:text-4xl md:text-5xl mb-6" id="infoPopupTitle"></h3>
-            <div id="infoPopupContent" class="text-base sm:text-lg md:text-xl leading-relaxed text-gray-300">
+            <div id="infoPopupContent" class="text-base sm:text-lg md:text-xl leading-relaxed text-gray-300 custom-scrollbar">
                 </div>
         </div>
     </div>
@@ -1111,7 +1181,6 @@ SOFTWARE.
         function animateParticles() {
             requestAnimationFrame(animateParticles);
             ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
-
             particles.forEach(particle => {
                 particle.update();
                 particle.draw();
