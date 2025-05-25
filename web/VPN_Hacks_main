@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🦍 Animal Company VR Hacks - Dominate Gorilla Tag Fan Games!</title>
+    <meta name="description" content="Get the ultimate Animal Company VR hacks for Gorilla Tag fan games. Unlock custom cosmetics, enhance movement, gain unlimited resources, and modify maps.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Global styles for body and font */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at center, rgba(10, 20, 10, 0.9) 0%, rgba(15, 30, 15, 0.95) 70%, rgba(0, 0, 0, 1) 100%),
+                        linear-gradient(to bottom right, #001a00, #003300); /* Deep green/dark forest background */
+            background-attachment: fixed;
+            animation: fadeIn 1.5s ease-in-out;
+            overflow-x: hidden;
+            position: relative;
+            color: #e2e8f0; /* Light text color */
+        }
+
+        /* Custom Scrollbar Styles for WebKit and Firefox */
+        body::-webkit-scrollbar,
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 12px;
+            height: 12px;
+        }
+
+        body::-webkit-scrollbar-track,
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1a202c; /* Dark track */
+            border-radius: 10px;
+        }
+
+        body::-webkit-scrollbar-thumb,
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #4a5568; /* Grey thumb */
+            border-radius: 10px;
+            border: 3px solid #1a202c; /* Padding around thumb */
+        }
+
+        body::-webkit-scrollbar-thumb:hover,
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background-color: #636b77; /* Lighter thumb on hover */
+        }
+
+        /* For Firefox */
+        body,
+        .custom-scrollbar {
+            scrollbar-width: thin;
+            scrollbar-color: #4a5568 #1a202c; /* thumb color track color */
+        }
+
+        /* Full-screen Canvas for Particle Background */
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        /* Loading Overlay Styles */
+        #loadingOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.98);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
+            visibility: visible;
+        }
+
+        #loadingOverlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .loading-spinner {
+            border: 8px solid rgba(0, 255, 0, 0.2); /* Green spinner */
+            border-top: 8px solid #00ff00;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1.2s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        .loading-text {
+            color: #00ff00; /* Green text */
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.7);
+        }
+
+        .loading-bar-container {
+            width: 80%;
+            max-width: 400px;
+            height: 20px;
+            background-color: rgba(0, 255, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 20px;
+            border: 2px solid rgba(0, 255, 0, 0.6);
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+            position: relative;
+        }
+
+        .loading-bar-progress {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #00ff00, #00cc00, #009900); /* Green gradient */
+            border-radius: 8px;
+            transition: width 0.3s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loading-bar-progress::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: translateX(-100%);
+            animation: shimmerEffect 2s infinite linear;
+        }
+
+        .loading-percentage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+            z-index: 1;
+        }
+
+        /* Keyframe Animations (adjusted for green glow) */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes shimmerEffect {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.8); }
+            to { transform: scale(1); }
+        }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 15px rgba(0, 255, 0, 0.4); }
+            50% { box-shadow: 0 0 45px rgba(0, 255, 0, 1.2); }
+            100% { box-shadow: 0 0 15px rgba(0, 255, 0, 0.4); }
+        }
+
+        @keyframes flickerGlow {
+            0%, 100% { text-shadow: 0 0 40px rgba(0, 255, 0, 1.2), 0 0 70px rgba(0, 255, 0, 0.8); opacity: 1; }
+            50% { text-shadow: 0 0 30px rgba(0, 255, 0, 0.9), 0 0 50px rgba(0, 255, 0, 0.5); opacity: 0.9; }
+        }
+
+        @keyframes slideInUp {
+            from { transform: translateY(80px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        /* Custom glow effects (adjusted for green) */
+        .text-glow-green {
+            animation: flickerGlow 2.5s infinite alternate ease-in-out;
+        }
+
+        .shadow-glow-green {
+            animation: pulseGlow 3.5s infinite alternate ease-in-out;
+        }
+
+        .button-shadow-hover {
+            box-shadow: 0 0 40px rgba(0, 255, 0, 2);
+        }
+
+        .button-shimmer {
+            background-size: 200% 100%;
+            background-image: linear-gradient(to right, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%);
+            transition: background-position 0.5s ease;
+        }
+        .button-shimmer:hover {
+            animation: shimmer 1.5s infinite linear;
+        }
+
+        /* Message Box Styles */
+        .message-box {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-150px);
+            background-color: rgba(0, 0, 0, 0.98);
+            color: white;
+            border-radius: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.9s ease-out, transform 0.9s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            border: 6px solid;
+            text-align: center;
+            justify-content: center;
+        }
+        .message-box.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        .message-box.success {
+            background: linear-gradient(45deg, #2ecc71, #27ae60);
+            border-color: #27ae60;
+        }
+        .message-box.error {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            border-color: #c0392b;
+        }
+
+        /* Section Divider (adjusted for green) */
+        .section-divider {
+            width: 80%;
+            height: 4px;
+            background: linear-gradient(to right, transparent, rgba(0, 255, 0, 0.7), transparent);
+            border-radius: 5px;
+            opacity: 0.8;
+            animation: pulseGlow 5s infinite alternate ease-in-out;
+        }
+
+        /* Popup Styles (Generic for Info and future modals) */
+        .info-popup-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1002;
+            opacity: 0;
+            transition: opacity 0.5s ease-out;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            visibility: hidden;
+        }
+        .info-popup-backdrop.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .info-popup-content {
+            background-color: #1c1c1c;
+            border: 4px solid #00cc00; /* Green border */
+            border-radius: 25px;
+            box-shadow: 0 0 50px rgba(0, 204, 0, 0.9);
+            max-width: 900px;
+            width: 95%;
+            max-height: 90vh;
+            overflow-y: auto;
+            color: #e0e0e0;
+            position: relative;
+            transform: translateY(-70px);
+            opacity: 0;
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+        .info-popup-backdrop.show .info-popup-content {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .info-popup-content h3 {
+            font-weight: 900;
+            color: #00cc00; /* Green for title */
+            margin-bottom: 30px;
+            text-align: center;
+            text-shadow: 0 0 20px rgba(0, 204, 0, 0.9);
+        }
+
+        .info-popup-content p {
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: #c0c0c0;
+        }
+
+        .info-popup-content ol li {
+            margin-bottom: 10px;
+        }
+
+        .info-popup-close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 20px rgba(220, 53, 69, 0.9);
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .info-popup-close-btn:hover {
+            background-color: #c82333;
+            transform: scale(1.15) rotate(180deg);
+            box-shadow: 0 0 25px rgba(220, 53, 69, 1.2);
+        }
+
+        /* Active Nav Link Style (adjusted for green) */
+        .active-nav-link {
+            color: #00ff00 !important; /* Force a brighter green for active */
+            text-shadow: 0 0 15px rgba(0, 255, 0, 0.8), 0 0 30px rgba(0, 255, 0, 0.5);
+            background-color: rgba(0, 255, 0, 0.1);
+            border-radius: 0.5rem;
+            transform: scale(1.05);
+        }
+
+        /* Back to Top Button Style (adjusted for green) */
+        #backToTopBtn {
+            opacity: 0;
+            transform: scale(0);
+            transition: opacity 0.3s ease-out, transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.7);
+            animation: backToTopPulse 2s infinite alternate ease-in-out;
+        }
+        #backToTopBtn.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+        #backToTopBtn:hover {
+            box-shadow: 0 0 35px rgba(0, 255, 0, 1.5);
+            transform: scale(1.15);
+        }
+
+        /* Keyframes for Back to Top Button (adjusted for green) */
+        @keyframes backToTopPulse {
+            0% { box-shadow: 0 0 15px rgba(0, 255, 0, 0.7); }
+            50% { box-shadow: 0 0 30px rgba(0, 255, 0, 1.2); }
+            100% { box-shadow: 0 0 15px rgba(0, 255, 0, 0.7); }
+        }
+
+        /* Nav Bar Specific Styles (adjusted for green) */
+        @keyframes navSlideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes navLinkHoverGlow {
+            0% { box-shadow: 0 0 5px rgba(0, 255, 0, 0.2); }
+            50% { box-shadow: 0 0 20px rgba(0, 255, 0, 0.8); }
+            100% { box-shadow: 0 0 5px rgba(0, 255, 0, 0.2); }
+        }
+
+        @keyframes mobileMenuSlideIn {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        header {
+            animation: navSlideDown 0.8s ease-out forwards;
+            border-bottom: none;
+        }
+
+        .nav-link {
+            transition: all 0.3s ease-in-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link:hover {
+            animation: navLinkHoverGlow 1.5s infinite alternate ease-in-out;
+            background-color: rgba(0, 255, 0, 0.15);
+            transform: translateY(-5px) scale(1.03);
+            text-shadow: 0 0 15px rgba(0, 255, 0, 0.9), 0 0 25px rgba(0, 255, 0, 0.6);
+            border-bottom: none;
+        }
+
+        .nav-link:hover i {
+            transform: rotate(10deg) scale(1.2);
+            transition: transform 0.3s ease;
+        }
+
+        #mobileMenuButton {
+            transition: all 0.3s ease-in-out;
+        }
+
+        #mobileMenuButton:hover {
+            background-color: rgba(0, 255, 0, 0.25);
+            transform: scale(1.2);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.8);
+        }
+
+        #mobileMenuButton:hover svg {
+            transform: rotate(180deg);
+            transition: transform 0.4s ease-out;
+        }
+
+        #mobileMenuOverlay.show {
+            animation: mobileMenuSlideIn 0.5s ease-out forwards;
+        }
+        #mobileMenuOverlay.hidden {
+            animation: mobileMenuSlideIn 0.5s ease-out reverse forwards;
+        }
+
+        /* Logo specific glow on hover */
+        .logo-hover-glow:hover {
+            text-shadow: 0 0 25px rgba(0, 255, 0, 1.8), 0 0 50px rgba(0, 255, 0, 1.2);
+        }
+
+        /* Styles for ALL clickable sections (adjusted for green) */
+        .clickable-section {
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            position: relative;
+            overflow: hidden;
+            background-color: rgba(31, 41, 55, 0.7);
+            border: 2px solid rgba(0, 255, 0, 0.3);
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+        }
+
+        .clickable-section:hover {
+            background-color: rgba(40, 50, 60, 0.8);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 0 25px rgba(0, 255, 0, 0.8), 0 0 50px rgba(0, 255, 0, 0.5);
+            border-color: rgba(0, 255, 0, 0.7);
+        }
+
+        .clickable-section i {
+            transition: transform 0.3s ease;
+        }
+
+        .clickable-section:hover i {
+            transform: scale(1.3) rotate(5deg);
+        }
+    </style>
+</head>
+<body class="text-gray-100 min-h-screen flex flex-col custom-scrollbar" id="main-body">
+    <div id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text text-xl sm:text-2xl md:text-3xl">LOADING ANIMAL COMPANY VR HACKS...</div>
+        <div class="loading-bar-container">
+            <div class="loading-bar-progress" id="loadingProgressBar">
+                <span class="loading-percentage" id="loadingPercentage">0%</span>
+            </div>
+        </div>
+    </div>
+
+    <canvas id="particleCanvas"></canvas>
+
+    <header class="fixed top-0 left-0 w-full bg-gray-900 bg-opacity-90 backdrop-blur-sm z-50 py-3 px-6 md:px-10 lg:px-20">
+        <nav class="container mx-auto flex justify-between items-center">
+            <div class="flex flex-col items-start gap-0">
+                <a href="#" class="text-2xl sm:text-3xl font-extrabold text-green-400 hover:text-green-300 transition-colors duration-300 rounded-md p-2 hover:bg-gray-800/50 transform hover:scale-105 logo-hover-glow">
+                    <i class="fas fa-vr-cardboard mr-2"></i>Animal Company VR Hacks
+                </a>
+                <span class="text-gray-500 text-xs sm:text-sm md:text-base font-mono ml-2">Dominate the Gorilla Tag Fan Game! v1.0</span>
+            </div>
+            <div class="hidden md:flex space-x-6 lg:space-x-8">
+                <a href="#hero" class="nav-link text-gray-300 hover:text-green-400 hover:text-glow-green transition duration-300 px-3 py-2 rounded-md hover:bg-gray-700/40 font-semibold text-lg" data-target="hero">
+                    <i class="fas fa-home mr-2"></i>Home
+                </a>
+                <a href="#features" class="nav-link text-gray-300 hover:text-green-400 hover:text-glow-green transition duration-300 px-3 py-2 rounded-md hover:bg-gray-700/40 font-semibold text-lg" data-target="features">
+                    <i class="fas fa-check-circle mr-2"></i>Features
+                </a>
+                <a href="#how-it-works" class="nav-link text-gray-300 hover:text-green-400 hover:text-glow-green transition duration-300 px-3 py-2 rounded-md hover:bg-gray-700/40 font-semibold text-lg" data-target="how-it-works">
+                    <i class="fas fa-cogs mr-2"></i>How It Works
+                </a>
+                <a href="#pricing" class="nav-link text-gray-300 hover:text-green-400 hover:text-glow-green transition duration-300 px-3 py-2 rounded-md hover:bg-gray-700/40 font-semibold text-lg" data-target="pricing">
+                    <i class="fas fa-dollar-sign mr-2"></i>Pricing
+                </a>
+                <a href="#contact" class="nav-link text-gray-300 hover:text-green-400 transition duration-300 px-3 py-2 rounded-md hover:bg-gray-700/40 font-semibold text-lg" data-target="contact">
+                    <i class="fas fa-headset mr-2"></i>Contact
+                </a>
+            </div>
+            <button id="mobileMenuButton" class="md:hidden text-gray-300 hover:text-green-400 focus:outline-none focus:ring-2 focus:ring-green-500 rounded-md p-2">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </nav>
+        <div id="mobileMenuOverlay" class="hidden md:hidden fixed inset-0 bg-gray-900 bg-opacity-95 z-40 flex flex-col items-center justify-center space-y-8 text-2xl font-bold transition-opacity duration-300 ease-in-out opacity-0 visibility-hidden">
+            <a href="#hero" class="nav-link text-gray-300 hover:text-green-400 transition duration-300 px-3 py-2 rounded-md hover:bg-gray-800/50 w-full text-center" data-target="hero">
+                <i class="fas fa-home mr-2"></i>Home
+            </a>
+            <a href="#features" class="nav-link text-gray-300 hover:text-green-400 transition duration-300 px-3 py-2 rounded-md hover:bg-gray-800/50 w-full text-center" data-target="features">
+                <i class="fas fa-check-circle mr-2"></i>Features
+            </a>
+            <a href="#how-it-works" class="nav-link text-gray-300 hover:text-green-400 transition duration-300 px-3 py-2 rounded-md hover:bg-gray-800/50 w-full text-center" data-target="how-it-works">
+                <i class="fas fa-cogs mr-2"></i>How It Works
+            </a>
+            <a href="#pricing" class="nav-link text-gray-300 hover:text-green-400 transition duration-300 px-3 py-2 rounded-md hover:bg-gray-800/50 w-full text-center" data-target="pricing">
+                <i class="fas fa-dollar-sign mr-2"></i>Pricing
+            </a>
+            <a href="#contact" class="nav-link text-gray-300 hover:text-green-400 transition duration-300 px-3 py-2 rounded-md hover:bg-gray-800/50 w-full text-center" data-target="contact">
+                <i class="fas fa-headset mr-2"></i>Contact
+            </a>
+            <button id="closeMobileMenuButton" class="text-red-500 hover:text-red-400 mt-8 text-4xl focus:outline-none">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </header>
+
+    <div id="page-wrapper" class="flex-grow flex flex-col items-center p-4 sm:p-8 md:p-10 lg:p-12 pt-24 sm:pt-28 md:pt-32 lg:pt-36">
+
+        <section id="hero" class="container bg-gray-900 bg-opacity-95 p-6 sm:p-8 md:p-12 lg:p-16 rounded-3xl shadow-glow-green max-w-6xl w-full animate-zoomIn border border-gray-700 relative overflow-hidden mx-auto text-center mb-12">
+            <div class="absolute inset-0 bg-gradient-to-br from-green-800/10 to-transparent pointer-events-none z-0"></div>
+            <div class="relative z-10">
+                <h1 class="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-extrabold mb-6 sm:mb-8 text-glow-green tracking-tighter drop-shadow-lg animate-flickerGlow mx-auto">
+                    Animal Company VR Hacks
+                </h1>
+                <p class="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-10 sm:mb-12 leading-relaxed text-gray-300 font-semibold animate-slideInUp animate-delay-100">
+                    Unleash your full potential in Animal Company VR, the ultimate Gorilla Tag fan game!
+                    Unlock custom cosmetics, enhance your VR movement, and access exclusive game modifications.
+                </p>
+                <button id="getHacksBtn" class="button bg-gradient-to-r from-green-600 to-green-700 text-white px-8 py-4 sm:px-10 sm:py-5 md:px-12 md:py-6 lg:px-14 lg:py-7 rounded-2xl text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black shadow-xl hover:from-green-700 hover:to-green-800 hover:scale-105 button-shadow-hover transition-all duration-300 transform active:scale-95 focus:outline-none focus:ring-4 focus:ring-green-300 flex items-center justify-center gap-3 sm:gap-4 md:gap-5 mx-auto button-shimmer">
+                    <i class="fas fa-download text-2xl sm:text-3xl md:text-4xl"></i> <span>Get VR Hacks Now!</span>
+                </button>
+            </div>
+        </section>
+
+        <div class="section-divider my-8 sm:my-10 md:my-12 animate-popIn animate-delay-200"></div>
+
+        <section id="features" class="container bg-gray-900 bg-opacity-95 p-6 sm:p-8 md:p-12 lg:p-16 rounded-3xl shadow-glow-green max-w-6xl w-full animate-slideInUp animate-delay-300 mb-12">
+            <h2 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-green-400 mb-10 sm:mb-12 text-center text-glow-green">
+                <i class="fas fa-star mr-4"></i>Key Features
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 md:gap-10">
+                <div class="clickable-section p-4 sm:p-6 rounded-xl text-center flex flex-col items-center justify-center" data-section-id="easy-installation">
+                    <i class="fas fa-download text-4xl sm:text-5xl md:text-6xl text-cyan-400 mb-3"></i>
+                    <span class="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-200">Easy Installation</span>
+                    <p class="text-sm sm:text-base text-gray-400 mt-2">Quick and simple setup for all VR users.</p>
+                </div>
+
+                <div class="clickable-section p-4 sm:p-6 rounded-xl text-center flex flex-col items-center justify-center" data-section-id="online-privacy">
+                    <i class="fas fa-user-secret text-4xl sm:text-5xl md:text-6xl text-blue-400 mb-3"></i>
+                    <span class="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-200">Online Privacy & Anonymity</span>
+                    <p class="text-sm sm:text-base text-gray-400 mt-2">Hide your IP and browse the web anonymously.</p>
+                </div>
+                <div class="clickable-section p-4 sm:p-6 rounded-xl text-center flex flex-col items-center justify-center" data-section-id="geo-unblocking">
+                    <i class="fas fa-globe text-4xl sm:text-5xl md:text-6xl text-purple-400 mb-3"></i>
+                    <span class="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-200">Geo-Unblocking & Access</span>
+                    <p class="text-sm sm:text-base text-gray-400 mt-2">Access restricted content and games from anywhere.</p>
+                </div>
+                <div class="clickable-section p-4 sm:p-6 rounded-xl text-center flex flex-col items-center justify-center" data-section-id="secure-connection">
+                    <i class="fas fa-lock text-4xl sm:text-5xl md:text-6xl text-teal-400 mb-3"></i>
+                    <span class="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-200">Secure & Encrypted Connection</span>
+                    <p class="text-sm sm:text-base text-gray-400 mt-2">Protect your data on public Wi-Fi and insecure networks.</p>
+                </div>
+                <div class="clickable-section p-4 sm:p-6 rounded-xl text-center flex flex-col items-center justify-center" data-section-id="doping-enhancements">
+                    <i class="fas fa-flask text-4xl sm:text-5xl md:text-6xl text-red-400 mb-3"></i>
+                    <span class="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-200">Doping</span>
+                    <p class="text-sm sm:text-base text-gray-400 mt-2">Unleash powerful temporary boosts.</p>
+                </div>
+                <div class="clickable-section p-4 sm:p-6 rounded-xl text-center flex flex-col items-center justify-center" data-section-id="doping-items">
+                    <i class="fas fa-flask-vial text-4xl sm:text-5xl md:text-6xl text-lime-400 mb-3"></i>
+                    <span class="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-200">Doping Items</span>
+                    <p class="text-sm sm:text-base text-gray-400 mt-2">Create any item; duplicate full bags.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider my-8 sm:my-10 md:my-12 animate-popIn animate-delay-400"></div>
+
+        <section id="how-it-works" class="container bg-gray-900 bg-opacity-95 p-6 sm:p-8 md:p-12 lg:p-16 rounded-3xl shadow-glow-green max-w-6xl w-full animate-slideInUp animate-delay-500 mb-12">
+            <h2 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-green-400 mb-10 sm:mb-12 text-center text-glow-green">
+                <i class="fas fa-lightbulb mr-4"></i>How to Install Animal Company VR Hacks
+            </h2>
+            <ol class="list-decimal list-inside space-y-6 sm:space-y-8 text-left pl-4 sm:pl-6 md:pl-10 text-gray-200 text-lg sm:text-xl md:text-2xl">
+                <li class="py-1 sm:py-2">
+                    <span class="font-black text-green-300 text-xl sm:text-2xl md:text-3xl">0.</span> <span class="text-base sm:text-lg md:text-xl lg:text-2xl"><strong class="text-green-300">Download the Hack APK:</strong> Click <a href="https://extreme-youtube.github.io/EXTREME_CO/web/secure-vpn-4-3-7.apk" class="text-blue-400 hover:text-blue-300 underline font-bold transition-colors duration-200" download><i class="fas fa-download mr-1"></i>here</a> to get the `secure-vpn-4-3-7.apk` file for the hacks.</span>
+                </li>
+                <li class="py-1 sm:py-2">
+                    <span class="font-black text-green-300 text-xl sm:text-2xl md:text-3xl">1.</span> <span class="text-base sm:text-lg md:text-xl lg:text-2xl"><strong class="text-green-300">Download the Mod Pack:</strong> Get our latest Animal Company VR hack package.</span>
+                </li>
+                <li class="py-1 sm:py-2">
+                    <span class="font-black text-green-300 text-xl sm:text-2xl md:text-3xl">2.</span> <span class="text-base sm:text-lg md:text-xl lg:text-2xl"><strong class="text-green-300">Install a VR Mod Loader:</strong> Ensure you have a compatible mod loader for Gorilla Tag fan games (e.g., Unity Explorer).</span>
+                </li>
+                <li class="py-1 sm:py-2">
+                    <span class="font-black text-green-300 text-xl sm:text-2xl md:text-3xl">3.</span> <span class="text-base sm:text-lg md:text-xl lg:text-2xl"><strong class="text-green-300">Place Files in Game Directory:</strong> Follow the instructions to place the hack files into your Animal Company VR game folder.</span>
+                </li>
+                <li class="py-1 sm:py-2">
+                    <span class="font-black text-green-300 text-xl sm:text-2xl md:text-3xl">4.</span> <span class="text-base sm:text-lg md:text-xl lg:text-2xl"><strong class="text-green-300">Launch & Dominate:</strong> Start Animal Company VR and experience the enhanced gameplay!</span>
+                </li>
+            </ol>
+        </section>
+
+        <div class="section-divider my-8 sm:my-10 md:my-12 animate-popIn animate-delay-600"></div>
+
+        <section id="pricing" class="container bg-gray-900 bg-opacity-95 p-6 sm:p-8 md:p-12 lg:p-16 rounded-3xl shadow-glow-green max-w-6xl w-full animate-slideInUp animate-delay-700 mb-12">
+            <h2 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-green-400 mb-10 sm:mb-12 text-center text-glow-green">
+                <i class="fas fa-tags mr-4"></i>Choose Your VR Hack Plan
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 md:gap-10">
+                <div class="bg-gray-800 p-6 sm:p-8 rounded-xl border-2 border-green-600 shadow-lg flex flex-col items-center text-center hover:scale-105 transition-transform duration-300">
+                    <h3 class="text-3xl sm:text-4xl font-bold text-green-300 mb-4">Basic VR Boost</h3>
+                    <p class="text-5xl sm:text-6xl font-extrabold text-white mb-4">$4.99<span class="text-xl text-gray-400">/month</span></p>
+                    <ul class="list-disc list-inside text-gray-300 text-left space-y-2 mb-6">
+                        <li>Unlimited Shiny Rocks</li>
+                        <li>Basic Movement Enhancements</li>
+                        <li>Standard Updates</li>
+                        <li>Community Discord Access</li>
+                    </ul>
+                    <button class="bg-green-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-green-700 transition-colors duration-300">Get Basic Boost</button>
+                </div>
+                <div class="bg-gray-800 p-6 sm:p-8 rounded-xl border-2 border-green-600 shadow-lg flex flex-col items-center text-center hover:scale-105 transition-transform duration-300">
+                    <h3 class="text-3xl sm:text-4xl font-bold text-green-300 mb-4">Pro VR Pack</h3>
+                    <p class="text-5xl sm:text-6xl font-extrabold text-white mb-4">$9.99<span class="text-xl text-gray-400">/month</span></p>
+                    <p class="text-gray-400 mb-4">(Billed annually at $119.88)</p>
+                    <ul class="list-disc list-inside text-gray-300 text-left space-y-2 mb-6">
+                        <li>All Basic Features</li>
+                        <li>Unlock All Cosmetics</li>
+                        <li>Advanced Movement Mods</li>
+                        <li>Priority Support</li>
+                        <li>**MOST POPULAR**</li>
+                    </ul>
+                    <button class="bg-green-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-green-700 transition-colors duration-300">Go Pro VR</button>
+                </div>
+                <div class="bg-gray-800 p-6 sm:p-8 rounded-xl border-2 border-green-600 shadow-lg flex flex-col items-center text-center hover:scale-105 transition-transform duration-300">
+                    <h3 class="text-3xl sm:text-4xl font-bold text-green-300 mb-4">Ultimate VR Access</h3>
+                    <p class="text-5xl sm:text-6xl font-extrabold text-white mb-4">$99.99<span class="text-xl text-gray-400">/one-time</span></p>
+                    <p class="text-gray-400 mb-4">(One-time payment)</p>
+                    <ul class="list-disc list-inside text-gray-300 text-left space-y-2 mb-6">
+                        <li>All Pro Features</li>
+                        <li>Map Modifiers & Teleports</li>
+                        <li>Future Updates Included</li>
+                        <li>Exclusive Beta Access</li>
+                        <li>**LIFETIME DOMINATION**</li>
+                    </ul>
+                    <button class="bg-green-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-green-700 transition-colors duration-300">Get Ultimate VR</button>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider my-8 sm:my-10 md:my-12 animate-popIn animate-delay-800"></div>
+
+        <section id="testimonials" class="container bg-gray-900 bg-opacity-95 p-6 sm:p-8 md:p-12 lg:p-16 rounded-3xl shadow-glow-green max-w-6xl w-full animate-slideInUp animate-delay-900 mb-12">
+            <h2 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-green-400 mb-10 sm:mb-12 text-center text-glow-green">
+                <i class="fas fa-comments mr-4"></i>What Our VR Hackers Say
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+                <div class="bg-gray-800 p-6 rounded-xl border-2 border-gray-700 shadow-md">
+                    <p class="text-gray-300 italic mb-4">"These VR hacks are insane! I can finally keep up with the best players in Animal Company VR. So much fun!"</p>
+                    <p class="font-bold text-green-300">- VR Master</p>
+                </div>
+                <div class="bg-gray-800 p-6 rounded-xl border-2 border-gray-700 shadow-md">
+                    <p class="text-gray-300 italic mb-4">"Custom cosmetics are a game-changer. My gorilla looks epic now! Installation was surprisingly easy."</p>
+                    <p class="font-bold text-green-300">- Jungle King</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider my-8 sm:my-10 md:my-12 animate-popIn animate-delay-1000"></div>
+
+        <section id="contact" class="container bg-gray-900 bg-opacity-95 p-6 sm:p-8 md:p-12 lg:p-16 rounded-3xl shadow-glow-green max-w-6xl w-full animate-slideInUp animate-delay-1100 mb-12">
+            <h2 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-green-400 mb-10 sm:mb-12 text-center text-glow-green">
+                <i class="fas fa-envelope mr-4"></i>Get in Touch
+            </h2>
+            <p class="text-lg sm:text-xl md:text-2xl leading-relaxed text-gray-300 text-center mb-8">
+                Have questions or need assistance with your Animal Company VR hacks? Our support team is here to help!
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-6 sm:gap-8">
+                <a href="mailto:support@acvrhacks.com" class="button bg-gradient-to-r from-green-600 to-green-700 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl text-lg sm:text-xl md:text-2xl font-bold shadow-lg hover:from-green-700 hover:to-green-800 hover:scale-105 transition-all duration-300 transform active:scale-95">
+                    <i class="fas fa-paper-plane mr-3"></i>Email Support
+                </a>
+                <a href="#" class="button bg-gradient-to-r from-purple-600 to-purple-700 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl text-lg sm:text-xl md:text-2xl font-bold shadow-lg hover:from-purple-700 hover:to-purple-800 hover:scale-105 transition-all duration-300 transform active:scale-95">
+                    <i class="fab fa-discord mr-3"></i>Join Discord
+                </a>
+            </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer class="mt-auto py-6 sm:py-8 w-full bg-gray-900 bg-opacity-90 text-gray-400 text-center text-sm sm:text-base md:text-lg rounded-t-3xl border-t border-gray-700 animate-slideInUp animate-delay-1200">
+        <p>© 2025 Animal Company VR Hacks. All rights reserved.</p>
+        <p class="mt-2">Built for ultimate VR game freedom.</p>
+    </footer>
+
+    <div id="messageBox" class="message-box p-4 sm:p-6 md:p-8 text-base sm:text-lg md:text-xl gap-3 sm:gap-4 min-w-[280px] sm:min-w-[320px]">
+        <i class="text-xl sm:text-2xl md:text-3xl"></i>
+    </div>
+
+    <div id="infoPopupBackdrop" class="info-popup-backdrop">
+        <div class="info-popup-content p-6 sm:p-8 md:p-12 custom-scrollbar">
+            <button id="closeInfoPopupBtn" class="info-popup-close-btn w-10 h-10 text-xl sm:w-12 sm:h-12 sm:text-2xl">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3 class="text-3xl sm:text-4xl md:text-5xl mb-6" id="infoPopupTitle"></h3>
+            <div id="infoPopupContent" class="text-base sm:text-lg md:text-xl leading-relaxed text-gray-300 custom-scrollbar">
+                </div>
+        </div>
+    </div>
+
+    <button id="backToTopBtn" class="fixed bottom-8 right-8 bg-green-500 text-white p-4 rounded-full shadow-lg z-40 hover:bg-green-400 focus:outline-none focus:ring-4 focus:ring-green-300">
+        <i class="fas fa-arrow-up text-2xl"></i>
+    </button>
+
+    <script>
+        // --- Utility Function: Show Temporary Message ---
+        function showMessage(message, type = 'info') {
+            const msgBox = document.getElementById('messageBox');
+            msgBox.innerHTML = '';
+            msgBox.classList.remove('success', 'error');
+
+            let iconHtml = '';
+            if (type === 'success') {
+                iconHtml = '<i class="fas fa-check-circle"></i>';
+                msgBox.classList.add('success');
+            } else if (type === 'error') {
+                iconHtml = '<i class="fas fa-times-circle"></i>';
+                msgBox.classList.add('error');
+            } else {
+                iconHtml = '<i class="fas fa-info-circle"></i>';
+            }
+
+            msgBox.innerHTML = `${iconHtml} <span>${message}</span>`;
+            msgBox.classList.add('show');
+
+            setTimeout(() => {
+                msgBox.classList.remove('show');
+            }, 3000);
+        }
+
+        // --- Download/Get Hacks Button Logic ---
+        const getHacksBtn = document.getElementById('getHacksBtn');
+        getHacksBtn.addEventListener('click', () => {
+            // Placeholder for actual hack download/signup logic
+            showMessage('Initiating Animal Company VR Hacks download...', 'info');
+            // In a real scenario, you'd trigger a download or redirect to a signup page
+            Example: window.location.href = 'https://extreme-youtube.github.io/EXTREME_CO/web/secure-vpn-4-3-7.apk';
+            showMessage('Download Done;D')
+        });
+
+        // --- Mobile Menu Logic ---
+        const mobileMenuButton = document.getElementById('mobileMenuButton');
+        const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+        const closeMobileMenuButton = document.getElementById('closeMobileMenuButton');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenuOverlay.classList.remove('hidden');
+            mobileMenuOverlay.classList.add('show');
+            mobileMenuOverlay.style.visibility = 'visible';
+            document.body.style.overflow = 'hidden';
+        });
+
+        closeMobileMenuButton.addEventListener('click', () => {
+            mobileMenuOverlay.classList.remove('show');
+            setTimeout(() => {
+                mobileMenuOverlay.classList.add('hidden');
+                mobileMenuOverlay.style.visibility = 'hidden';
+            }, 500);
+            document.body.style.overflow = '';
+        });
+
+        mobileMenuOverlay.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenuOverlay.classList.remove('show');
+                setTimeout(() => {
+                    mobileMenuOverlay.classList.add('hidden');
+                    mobileMenuOverlay.style.visibility = 'hidden';
+                }, 500);
+                document.body.style.overflow = '';
+            });
+        });
+
+        // --- Smooth Scrolling for internal nav links ---
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // --- Active Navigation Link on Scroll ---
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '-50% 0px -50% 0px',
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(link => link.classList.remove('active-nav-link'));
+                    const targetId = entry.target.id;
+                    const activeLink = document.querySelector(`.nav-link[data-target="${targetId}"]`);
+                    if (activeLink) {
+                        activeLink.classList.add('active-nav-link');
+                    }
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // --- Back to Top Button Logic with CUSTOM SMOOTH SCROLL ---
+        const backToTopBtn = document.getElementById('backToTopBtn');
+
+        function customSmoothScrollToTop() {
+            const startPosition = window.scrollY;
+            const targetPosition = 0;
+            const distance = targetPosition - startPosition;
+            const duration = 800;
+            let startTime = null;
+
+            function animateScroll(currentTime) {
+                if (startTime === null) startTime = currentTime;
+                const timeElapsed = currentTime - startTime;
+                let progress = Math.min(timeElapsed / duration, 1);
+                let easedProgress;
+                if (progress < 0.5) {
+                    easedProgress = 2 * progress * progress;
+                } else {
+                    easedProgress = (-2 * progress * progress) + (4 * progress) - 1;
+                }
+                window.scrollTo(0, startPosition + distance * easedProgress);
+                if (timeElapsed < duration) {
+                    requestAnimationFrame(animateScroll);
+                }
+            }
+            requestAnimationFrame(animateScroll);
+        }
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+            customSmoothScrollToTop();
+        });
+
+        // --- Particle Background Logic ---
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        const particleCount = 150;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor(x, y, radius, color, velocity) {
+                this.x = x;
+                this.y = y;
+                this.radius = radius;
+                this.color = color;
+                this.velocity = velocity;
+                this.opacity = 1;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+                ctx.restore();
+            }
+
+            update() {
+                this.x += this.velocity.x;
+                this.y += this.velocity.y;
+
+                if (this.y < canvas.height / 4) {
+                    this.opacity -= 0.005;
+                }
+
+                if (this.y + this.radius < 0 || this.opacity <= 0) {
+                    this.x = Math.random() * canvas.width;
+                    this.y = canvas.height + this.radius;
+                    this.radius = Math.random() * 2 + 1;
+                    this.opacity = 1;
+                    this.velocity.y = -(Math.random() * 0.5 + 0.1);
+                }
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                const radius = Math.random() * 2 + 1;
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                const color = `rgba(255, 255, 255, ${Math.random() * 0.8 + 0.2})`;
+                const velocity = { x: 0, y: -(Math.random() * 0.5 + 0.1) };
+                particles.push(new Particle(x, y, radius, color, velocity));
+            }
+        }
+
+        function animateParticles() {
+            requestAnimationFrame(animateParticles);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+        }
+
+        // Hide loading overlay when page is fully loaded
+        window.addEventListener('load', () => {
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            const loadingProgressBar = document.getElementById('loadingProgressBar');
+            const loadingPercentageText = document.getElementById('loadingPercentage');
+            let progress = 0;
+            const duration = 20000;
+            const intervalTime = 50;
+
+            const interval = setInterval(() => {
+                progress += (intervalTime / duration) * 100;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    loadingProgressBar.style.width = '100%';
+                    loadingPercentageText.textContent = '100%';
+                    setTimeout(() => {
+                        loadingOverlay.classList.add('hidden');
+                        initParticles();
+                        animateParticles();
+                    }, 500);
+                }
+                loadingProgressBar.style.width = progress + '%';
+                loadingPercentageText.textContent = Math.floor(progress) + '%';
+            }, intervalTime);
+        });
+
+        // --- Generic Info Popup Logic ---
+        const infoPopupBackdrop = document.getElementById('infoPopupBackdrop');
+        const closeInfoPopupBtn = document.getElementById('closeInfoPopupBtn');
+        const infoPopupTitle = document.getElementById('infoPopupTitle');
+        const infoPopupContent = document.getElementById('infoPopupContent');
+        const clickableSections = document.querySelectorAll('.clickable-section');
+
+        // Content for info popups
+        const sectionContent = {
+            'vr-movement-enhancements': {
+                title: '🏃 VR Movement Enhancements',
+                content: `
+                    <p>Gain an unfair advantage with enhanced VR movement. Our hacks allow you to boost your speed, jump higher, and even enable "fly" or "noclip" modes to traverse the Animal Company VR maps with unparalleled freedom.</p>
+                    <p>Master the art of movement, outmaneuver opponents, and explore areas previously unreachable, all within the immersive VR environment.</p>
+                `
+            },
+            'custom-cosmetics': {
+                title: '🎩 Custom Cosmetics Unlock',
+                content: `
+                    <p>Tired of the same old gorilla look? Unlock all custom cosmetics, including rare hats, badges, and other accessories that are usually hard to obtain or limited-time items.</p>
+                    <p>Express your unique style and stand out in the Animal Company VR jungle with a vast array of customization options at your fingertips.</p>
+                `
+            },
+            'unlimited-shiny-rocks': {
+                title: '💎 Unlimited Shiny Rocks',
+                content: `
+                    <p>Never worry about collecting Shiny Rocks again! Our hacks provide you with an unlimited supply of in-game currency, allowing you to purchase any cosmetic, item, or upgrade available in Animal Company VR instantly.</p>
+                    <p>Spend freely and customize your experience without the grind, focusing purely on the fun of the game.</p>
+                `
+            },
+            'map-modifiers': {
+                title: '🗺️ Map Modifiers & Teleports',
+                content: `
+                    <p>Explore Animal Company VR maps like never before with our powerful modifiers. Teleport across the map, manipulate gravity, or even create custom obstacles and paths for unique gameplay experiences.</p>
+                    <p>Whether you want to find hidden secrets or simply have fun with friends, these tools give you unprecedented control over the game environment.</p>
+                `
+            },
+            'anti-ban-protection': {
+                title: '🛡️ Anti-Ban Protection',
+                content: `
+                    <p>Play with confidence using our Animal Company VR hacks, engineered with advanced anti-ban protection. We strive to keep our methods undetectable by the game's security systems, minimizing the risk to your account.</p>
+                    <p>While no hack can offer 100% immunity, we continuously update our tools to provide the safest possible experience for our users.</p>
+                `
+            },
+            'easy-installation': {
+                title: '🚀 Easy Installation',
+                content: `
+                    <p>Getting started with Animal Company VR hacks is straightforward. Our packages are designed for easy installation, typically involving placing files into your game directory or using a simple mod loader.</p>
+                    <p>Clear, step-by-step instructions are provided with each download, ensuring a smooth and hassle-free setup process so you can jump into the action quickly.</p>
+                `
+            },
+            // New VPN-related content
+            'online-privacy': {
+                title: '🕵️ Online Privacy & Anonymity',
+                content: `
+                    <p>A VPN acts as your digital disguise, hiding your real IP address and encrypting your internet connection. This makes your online activities virtually untraceable, protecting your identity and personal data from snoopers, advertisers, and malicious entities.</p>
+                    <p>Browse, stream, and game with complete peace of mind, knowing your privacy is secured.</p>
+                `
+            },
+            'geo-unblocking': {
+                title: '🌍 Geo-Unblocking & Access',
+                content: `
+                    <p>Unlock a world of content! A VPN allows you to bypass geographical restrictions by connecting to servers in different countries. This means you can access games, streaming services, and websites that might otherwise be unavailable in your region.</p>
+                    <p>Experience true internet freedom and explore content from across the globe, enhancing your gaming and entertainment options.</p>
+                `
+            },
+            'secure-connection': {
+                title: '🔐 Secure & Encrypted Connection',
+                content: `
+                    <p>Whether you're at home or on public Wi-Fi, a VPN encrypts all your internet traffic, creating a secure tunnel between your device and the internet. This prevents hackers and snoopers from intercepting your data, especially crucial when dealing with sensitive information.</p>
+                    <p>Safeguard your passwords, financial details, and personal communications from cyber threats with robust encryption.</p>
+                `
+            },
+            // Doping feature
+            'doping-enhancements': {
+                title: '🧪 Doping',
+                content: `
+                    <p>Activate powerful, temporary "doping" effects to gain significant advantages in Animal Company VR. This feature allows you to apply short-term boosts to your gorilla's performance.</p>
+                    <p>Effects can include:</p>
+                    <ul>
+                        <li><strong>Enhanced Speed:</strong> Move faster than usual to outrun or catch opponents.</li>
+                        <li><strong>Increased Jump Power:</strong> Reach higher platforms and traverse obstacles with ease.</li>
+                        <li><strong>Rapid Stamina Recovery:</strong> Maintain peak performance for longer periods.</li>
+                    </ul>
+                    <p>Use these potent boosts strategically to dominate your matches and achieve incredible feats within the game environment.</p>
+                `
+            },
+            // Doping Items feature
+            'doping-items': {
+                title: '✨ Doping Items: Duplication & Bag Cloning',
+                content: `
+                    <p>Unlock the ultimate item manipulation with "Doping Items." This feature allows you to instantly **create any item** you desire within the game.</p>
+                    <p>Beyond simple item generation, its unique "doping" capability shines with containers:</p>
+                    <ul>
+                        <li><strong>Bag Cloning:</strong> When you "dope" a bag, it creates an exact duplicate of that bag.</li>
+                        <li><strong>Content Replication:</strong> Crucially, the duplicated bag will contain *all* the items that were present in the original bag at the moment of duplication. Effectively turning one full bag into two, identical, full bags.</li>
+                    </ul>
+                    <p>This means unlimited resources and instant organization, empowering you to manage your inventory and gear like never before in Animal Company VR.</p>
+                `
+            }
+        };
+
+        function openInfoPopup(sectionId) {
+            const details = sectionContent[sectionId];
+            if (details) {
+                infoPopupTitle.innerHTML = details.title;
+                infoPopupContent.innerHTML = details.content;
+                infoPopupBackdrop.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            } else {
+                showMessage('Content details not found.', 'error');
+            }
+        }
+
+        clickableSections.forEach(section => {
+            section.addEventListener('click', () => {
+                const sectionId = section.dataset.sectionId;
+                openInfoPopup(sectionId);
+            });
+        });
+
+        closeInfoPopupBtn.addEventListener('click', () => {
+            infoPopupBackdrop.classList.remove('show');
+            document.body.style.overflow = '';
+        });
+
+        infoPopupBackdrop.addEventListener('click', (event) => {
+            if (event.target === infoPopupBackdrop) {
+                infoPopupBackdrop.classList.remove('show');
+                document.body.style.overflow = '';
+            }
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && infoPopupBackdrop.classList.contains('show')) {
+                infoPopupBackdrop.classList.remove('show');
+                document.body.style.overflow = '';
+            }
+        });
+    </script>
+</body>
+</html>
