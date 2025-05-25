@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌟 EXTREME-youtube | Earn Roblox Gift Cards</title>
+    <meta name="description" content="Learn how to legitimately earn Roblox Gift Cards using Microsoft Rewards, powered by Bing. Safe and official methods.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Custom styles for animations and specific overrides not easily done with Tailwind */
+        body {
+            font-family: 'Inter', sans-serif; /* Apply Inter font globally */
+            /* Enhanced background for a deeper, more cosmic feel */
+            background: radial-gradient(circle at center, #0a0a0a 0%, #000000 100%);
+            background-attachment: fixed; /* Keep background fixed during scroll */
+            overflow-x: hidden; /* Prevent horizontal scroll */
+            position: relative; /* Needed for canvas positioning */
+            min-height: 100vh; /* Ensure body takes full viewport height */
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Full-screen Canvas for Particle Background */
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2; /* Ensure it's behind everything */
+            pointer-events: none; /* Allow clicks to pass through */
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes pulseBorder {
+            0%, 100% { border-color: rgba(100, 100, 255, 0.4); box-shadow: 0 0 15px rgba(100, 100, 255, 0.3); }
+            50% { border-color: rgba(100, 100, 255, 0.8); box-shadow: 0 0 30px rgba(100, 100, 255, 0.6); }
+        }
+
+        /* Main container styling - Removed fixed padding, now using Tailwind classes */
+        .main-container {
+            background-color: rgba(26, 26, 26, 0.9);
+            border: 2px solid rgba(100, 100, 255, 0.3);
+            border-radius: 2rem; /* More rounded */
+            box-shadow: 0 0 30px rgba(100, 100, 255, 0.4);
+            animation: popIn 1s ease-out forwards;
+            opacity: 0; /* Start hidden for animation */
+            transform: scale(0.9); /* Start smaller for animation */
+            transition: all 0.3s ease;
+        }
+        .main-container:hover {
+            border-color: rgba(100, 100, 255, 0.6);
+            box-shadow: 0 0 50px rgba(100, 100, 255, 0.6);
+        }
+
+        /* Project button styling - Removed fixed padding and font-size, now using Tailwind classes */
+        .project-button {
+            background: linear-gradient(45deg, #6a0dad, #8a2be2); /* Purple gradient */
+            color: white;
+            border-radius: 1.5rem; /* Large rounded corners */
+            font-weight: 800;
+            box-shadow: 0 0 20px rgba(138, 43, 226, 0.6);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            text-decoration: none; /* Remove underline for links */
+            animation: slideInDown 0.8s ease-out forwards;
+            opacity: 0;
+            transform: translateY(-50px);
+        }
+        .project-button:hover {
+            background: linear-gradient(45deg, #8a2be2, #6a0dad);
+            box-shadow: 0 0 35px rgba(138, 43, 226, 0.9);
+            transform: translateY(-5px) scale(1.02);
+        }
+        /* Icon sizes are now handled by Tailwind classes directly on the <i> tag */
+
+        /* Specific button colors for variety */
+        .button-red { background: linear-gradient(45deg, #dc2626, #b91c1c); box-shadow: 0 0 20px rgba(220, 38, 38, 0.6); }
+        .button-red:hover { background: linear-gradient(45deg, #b91c1c, #dc2626); box-shadow: 0 0 35px rgba(220, 38, 38, 0.9); }
+
+        .button-green { background: linear-gradient(45deg, #16a34a, #15803d); box-shadow: 0 0 20px rgba(22, 163, 74, 0.6); }
+        .button-green:hover { background: linear-gradient(45deg, #15803d, #16a34a); box-shadow: 0 0 35px rgba(22, 163, 74, 0.9); }
+
+        .button-blue-gradient { /* New style for the VPN button */
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            box-shadow: 0 0 20px rgba(0, 123, 255, 0.6);
+        }
+        .button-blue-gradient:hover {
+            background: linear-gradient(45deg, #0056b3, #007bff);
+            box-shadow: 0 0 35px rgba(0, 123, 255, 0.9);
+        }
+
+        /* New color for a step-by-step button (e.g., orange/yellow) */
+        .button-orange {
+            background: linear-gradient(45deg, #f97316, #ea580c);
+            box-shadow: 0 0 20px rgba(249, 115, 22, 0.6);
+        }
+        .button-orange:hover {
+            background: linear-gradient(45deg, #ea580c, #f97316);
+            box-shadow: 0 0 35px rgba(249, 115, 22, 0.9);
+        }
+
+
+        /* Section divider */
+        .section-divider {
+            width: 60%;
+            height: 3px;
+            background: linear-gradient(to right, transparent, rgba(100, 100, 255, 0.5), transparent);
+            margin: 4rem auto;
+            border-radius: 5px;
+            opacity: 0.6;
+            animation: pulseBorder 3s infinite alternate ease-in-out;
+        }
+
+        /* Social media card styling - Removed fixed padding and font-size, now using Tailwind classes */
+        .social-card {
+            background-color: rgba(36, 36, 36, 0.8);
+            border: 2px solid rgba(70, 70, 70, 0.5);
+            border-radius: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            min-width: 150px; /* Ensure consistent width, but will wrap due to flexbox */
+        }
+        .social-card:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+            border-color: rgba(100, 100, 255, 0.8); /* Highlight border on hover */
+        }
+        /* Icon and span text sizes are now handled by Tailwind classes directly on the <i> and <span> tags */
+
+        /* Specific social card colors on hover */
+        .social-card.youtube:hover i { color: #ff0000; }
+        .social-card.tiktok:hover i { color: #69c9d0; } /* TikTok's blue */
+        .social-card.github:hover i { color: #007bff; } /* GitHub's blue */
+
+        /* MIT License Popup Styles */
+        .mit-popup-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95); /* Even darker, more opaque backdrop */
+            backdrop-filter: blur(10px); /* More blur effect */
+            z-index: 1001; /* Above other content, below popup */
+            opacity: 0;
+            transition: opacity 0.5s ease-out;
+            display: flex; /* Use flex to center the popup */
+            justify-content: center;
+            align-items: center;
+            visibility: hidden; /* Hidden by default */
+        }
+        .mit-popup-backdrop.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .mit-popup-content {
+            background-color: #1a1a1a; /* Dark background */
+            border: 4px solid #007bff; /* Thicker blue border for MIT theme */
+            border-radius: 25px;
+            box-shadow: 0 0 50px rgba(0, 123, 255, 0.8); /* More intense blue glow shadow */
+            /* Padding now handled by Tailwind */
+            max-width: 900px; /* Wider popup */
+            width: 95%; /* Responsive width */
+            max-height: 90vh; /* Max height to allow scrolling */
+            overflow-y: auto; /* Enable scrolling for long content */
+            color: #e0e0e0;
+            position: relative;
+            transform: translateY(-70px); /* Start slightly above center */
+            opacity: 0;
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+        .mit-popup-backdrop.show .mit-popup-content {
+            opacity: 1;
+            transform: translateY(0); /* Slide into center */
+        }
+
+        .mit-popup-content h3 {
+            /* Font size now handled by Tailwind */
+            font-weight: 900;
+            color: #007bff; /* Blue for title */
+            margin-bottom: 30px;
+            text-align: center;
+            text-shadow: 0 0 20px rgba(0, 123, 255, 0.9); /* Title glow */
+        }
+
+        .mit-popup-content pre {
+            background-color: #0d0d0d;
+            border: 2px solid #444; /* Thicker border */
+            /* Padding and font size now handled by Tailwind */
+            border-radius: 12px;
+            white-space: pre-wrap; /* Preserve whitespace and wrap text */
+            font-family: 'Consolas', 'Monaco', monospace;
+            line-height: 1.7;
+            color: #c0c0c0; /* Lighter code text */
+            max-height: 450px; /* Limit height for preformatted text */
+            overflow-y: auto; /* Scroll for long license text */
+            margin-bottom: 30px;
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.6);
+        }
+
+        .mit-popup-close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #dc3545; /* Red close button */
+            color: white;
+            border: none;
+            border-radius: 50%;
+            /* Width, height, font-size now handled by Tailwind */
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 20px rgba(220, 53, 69, 0.9);
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .mit-popup-close-btn:hover {
+            background-color: #c82333;
+            transform: scale(1.15) rotate(180deg); /* More dramatic rotate on hover */
+            box-shadow: 0 0 25px rgba(220, 53, 69, 1.2);
+        }
+
+        /* Navbar specific styles */
+        .navbar {
+            background-color: rgba(15, 15, 15, 0.95); /* Slightly darker, more opaque than main containers */
+            border-bottom: 2px solid rgba(100, 100, 255, 0.3);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px); /* Subtle blur for a modern look */
+        }
+        .navbar-link {
+            color: #e0e0e0; /* Light gray text */
+            font-weight: 600;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        .navbar-link:hover {
+            color: #8a2be2; /* Purple hover effect */
+            transform: translateY(-2px);
+        }
+
+        /* Loading Screen Styles */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000; /* Solid black background */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999; /* Ensure it's on top */
+            opacity: 1;
+            transition: opacity 1s ease-out; /* Smooth fade out */
+        }
+
+        .loading-bar-container {
+            width: 80%;
+            max-width: 400px;
+            height: 10px;
+            background-color: #333;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 20px;
+            box-shadow: 0 0 15px rgba(138, 43, 226, 0.5); /* Purple glow */
+        }
+
+        .loading-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #8a2be2, #007bff); /* Purple to blue gradient */
+            border-radius: 5px;
+            transition: width 0.5s ease-out; /* Smooth width transition */
+        }
+
+        .loading-text {
+            color: #e0e0e0;
+            font-size: 1.25rem; /* text-xl */
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .loading-version {
+            color: #a0a0a0;
+            font-size: 0.875rem; /* text-sm */
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body class="text-gray-100">
+
+    <div id="loading-screen">
+        <div class="loading-text">Loading...</div>
+        <div class="loading-bar-container">
+            <div id="loading-progress" class="loading-bar"></div>
+        </div>
+        <div class="loading-version">v0.0.1 [beta]</div>
+    </div>
+
+    <canvas id="particleCanvas"></canvas>
+
+    <nav class="navbar w-full py-4 px-6 flex justify-between items-center sticky top-0 z-10 rounded-b-xl">
+        <div class="text-2xl font-extrabold text-white">
+            <a href="#top" class="hover:text-purple-400 transition-colors duration-300">EXTREME-youtube</a>
+        </div>
+        <div class="hidden md:flex space-x-8">
+            <a href="#top" class="navbar-link text-lg">Home</a>
+            <a href="#how-it-works" class="navbar-link text-lg">How it Works</a>
+            <a href="#connect-with-me" class="navbar-link text-lg">Connect</a>
+            <a href="#license" class="navbar-link text-lg">License</a>
+        </div>
+        <button class="md:hidden text-white text-2xl focus:outline-none">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <div id="page-wrapper" class="flex-grow flex flex-col items-center justify-center p-4 sm:p-8 md:p-10 lg:p-12">
+        <h1 id="top" class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold mb-8 sm:mb-10 md:mb-12 text-center tracking-tight drop-shadow-lg animate-fadeIn" style="animation-delay: 0.2s;">
+            Earn <span class="text-purple-400">Roblox Gift Cards</span> with Bing!
+        </h1>
+        <p class="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-300 text-center mb-12 sm:mb-14 md:mb-16 max-w-3xl leading-relaxed animate-fadeIn" style="animation-delay: 0.4s;">
+            Discover the legitimate way to get free Roblox gift cards by earning points through Microsoft Rewards and searching with Bing.
+        </p>
+
+        <div id="how-it-works" class="main-container max-w-4xl w-full mx-auto p-8 sm:p-10 md:p-12 lg:p-16 mb-12 sm:mb-14 md:mb-16">
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-blue-400 mb-8 sm:mb-10 text-center flex items-center justify-center gap-2 sm:gap-4 animate-fadeIn" style="animation-delay: 0.6s;">
+                <i class="fas fa-coins text-2xl sm:text-3xl md:text-4xl"></i> How Microsoft Rewards Works
+            </h2>
+            <div class="flex flex-col items-center gap-6 sm:gap-8">
+                <a href="https://rewards.microsoft.com/" target="_blank" rel="noopener noreferrer"
+                   class="project-button py-3 px-6 text-xl sm:py-4 sm:px-8 sm:text-2xl md:py-5 md:px-10 md:text-3xl lg:py-6 lg:px-12 lg:text-4xl" style="animation-delay: 0.8s;">
+                    <i class="fas fa-user-plus text-2xl sm:text-3xl md:text-4xl lg:text-5xl"></i> Step 1: Sign Up for Free
+                </a>
+                <a href="https://www.bing.com/" target="_blank" rel="noopener noreferrer"
+                   class="project-button button-orange py-3 px-6 text-xl sm:py-4 sm:px-8 sm:text-2xl md:py-5 md:px-10 md:text-3xl lg:py-6 lg:px-12 lg:text-4xl" style="animation-delay: 1.0s;">
+                    <i class="fas fa-search text-2xl sm:text-3xl md:text-4xl lg:text-5xl"></i> Step 2: Earn Points with Bing
+                </a>
+                <a href="https://rewards.microsoft.com/redeem/all" target="_blank" rel="noopener noreferrer"
+                   class="project-button button-green py-3 px-6 text-xl sm:py-4 sm:px-8 sm:text-2xl md:py-5 md:px-10 md:text-3xl lg:py-6 lg:px-12 lg:text-4xl" style="animation-delay: 1.2s;">
+                    <i class="fas fa-gift text-2xl sm:text-3xl md:text-4xl lg:text-5xl"></i> Step 3: Redeem for Roblox Gift Cards
+                </a>
+            </div>
+        </div>
+
+        <div class="section-divider" style="animation-delay: 1.4s;"></div>
+
+        <div id="connect-with-me" class="main-container max-w-4xl w-full mx-auto p-8 sm:p-10 md:p-12 lg:p-16 mb-12 sm:mb-14 md:mb-16" style="animation-delay: 1.6s;">
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-purple-400 mb-8 sm:mb-10 text-center flex items-center justify-center gap-2 sm:gap-4 animate-fadeIn" style="animation-delay: 1.8s;">
+                <i class="fas fa-share-alt text-2xl sm:text-3xl md:text-4xl"></i> Connect with Me!
+            </h2>
+            <p class="text-base sm:text-lg md:text-xl leading-relaxed text-gray-300 text-center mb-8 sm:mb-10 animate-fadeIn" style="animation-delay: 2.0s;">
+                Stay updated with my content, including more tips and tricks!
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-6 sm:gap-8 animate-fadeIn" style="animation-delay: 2.2s;">
+                <a href="https://www.youtube.com/@extreme-1234" target="_blank" rel="noopener noreferrer"
+                   class="social-card youtube p-4 sm:p-6">
+                    <i class="fab fa-youtube text-4xl sm:text-5xl md:text-6xl"></i> <span class="text-base sm:text-lg md:text-xl">YouTube</span>
+                </a>
+                <a href="https://www.tiktok.com/@extreme12343" target="_blank" rel="noopener noreferrer"
+                   class="social-card tiktok p-4 sm:p-6">
+                    <i class="fab fa-tiktok text-4xl sm:text-5xl md:text-6xl"></i> <span class="text-base sm:text-lg md:text-xl">TikTok</span>
+                </a>
+                <a href="https://github.com/EXTREME-youtube" target="_blank" rel="noopener noreferrer"
+                   class="social-card github p-4 sm:p-6">
+                    <i class="fab fa-github text-4xl sm:text-5xl md:text-6xl"></i> <span class="text-base sm:text-lg md:text-xl">GitHub</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="section-divider" style="animation-delay: 2.4s;"></div>
+
+        <div id="license" class="main-container max-w-4xl w-full mx-auto p-8 sm:p-10 md:p-12 lg:p-16 mb-12 sm:mb-14 md:mb-16" style="animation-delay: 2.6s;">
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-blue-400 mb-8 sm:mb-10 text-center flex items-center justify-center gap-2 sm:gap-4 animate-fadeIn" style="animation-delay: 2.8s;">
+                <i class="fas fa-file-contract text-2xl sm:text-3xl md:text-4xl"></i> License
+            </h2>
+            <p class="text-base sm:text-lg md:text-xl leading-relaxed text-gray-300 text-center mb-8 sm:mb-10 animate-fadeIn" style="animation-delay: 3.0s;">
+                This website and its content are open-source and distributed under the MIT License.
+            </p>
+            <div class="flex justify-center animate-fadeIn" style="animation-delay: 3.2s;">
+                <button id="openMitLicenseBtn"
+                   class="bg-blue-600 text-white px-6 py-3 rounded-lg text-lg sm:px-8 sm:py-4 sm:text-xl font-bold hover:bg-blue-700 transition-colors duration-300 shadow-md hover:shadow-lg">
+                    Read the Full MIT License
+                </button>
+            </div>
+        </div>
+
+        <div class="section-divider" style="animation-delay: 3.4s;"></div>
+
+        <p class="text-base sm:text-lg md:text-xl mt-10 sm:mt-12 md:mt-14 text-gray-300 text-center animate-fadeIn" style="animation-delay: 3.6s;">
+            Start earning your Roblox gift cards today!
+        </p>
+    </div>
+
+    <footer class="mt-auto py-6 sm:py-8 w-full bg-gray-900 bg-opacity-90 text-gray-400 text-center text-sm sm:text-base md:text-lg rounded-t-3xl border-t border-gray-700 animate-fadeIn" style="animation-delay: 3.8s;">
+        <p>© 2025 EXTREME-youtube. All rights reserved.</p>
+        <p class="mt-2">Created with <i class="fas fa-heart text-red-500"></i> and <span class="text-blue-400 font-bold">Code</span></p>
+    </footer>
+
+    <div id="mitLicensePopupBackdrop" class="mit-popup-backdrop">
+        <div class="mit-popup-content p-6 sm:p-8 md:p-12">
+            <button id="closeMitLicenseBtn" class="mit-popup-close-btn w-10 h-10 text-xl sm:w-12 sm:h-12 sm:text-2xl">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3 class="text-3xl sm:text-4xl md:text-5xl">MIT License</h3>
+            <pre class="p-4 sm:p-6 text-sm sm:text-base">
+Copyright (c) 2025 EXTREME-youtube
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR TORT OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+            </pre>
+            <p class="text-center text-gray-400 text-xs sm:text-sm">
+                For more details, visit the official <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">MIT License page</a>.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // --- Loading Screen Logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const loadingScreen = document.getElementById('loading-screen');
+            const loadingProgress = document.getElementById('loading-progress');
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 10; // Increment progress
+                if (progress <= 100) {
+                    loadingProgress.style.width = `${progress}%`;
+                }
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        loadingScreen.style.opacity = '0'; // Fade out
+                        setTimeout(() => {
+                            loadingScreen.style.display = 'none'; // Hide after fade
+                            document.body.style.overflow = ''; // Restore scrolling
+                        }, 1000); // Wait for fade-out transition (1s)
+                    }, 500); // Small delay before fade out
+                }
+            }, 100); // Update every 100ms
+        });
+
+
+        // --- Particle Background Logic (Adapted for new theme) ---
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        const particleCount = 200; // Increased particle count for a denser effect
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas(); // Initial resize
+
+        // Array of cosmic-themed colors for particles
+        const particleColors = [
+            'rgba(173, 216, 230, 0.8)', // Light Blue
+            'rgba(200, 162, 200, 0.8)', // Thistle (light purple)
+            'rgba(255, 255, 255, 0.9)', // White
+            'rgba(255, 192, 203, 0.7)', // Pink
+            'rgba(147, 112, 219, 0.8)'  // Medium Purple
+        ];
+
+        class Particle {
+            constructor(x, y, radius, color, velocity) {
+                this.x = x;
+                this.y = y;
+                this.radius = radius;
+                this.color = color;
+                this.velocity = velocity;
+                this.opacity = 1;
+                this.trail = []; // For particle trails
+                this.maxTrailLength = 8;
+            }
+
+            draw() {
+                // Draw trail
+                for (let i = 0; i < this.trail.length; i++) {
+                    const trailParticle = this.trail[i];
+                    ctx.save();
+                    // Fade trail more subtly
+                    ctx.globalAlpha = trailParticle.opacity * (i / this.maxTrailLength) * 0.7;
+                    ctx.beginPath();
+                    ctx.arc(trailParticle.x, trailParticle.y, trailParticle.radius, 0, Math.PI * 2, false);
+                    ctx.fillStyle = trailParticle.color;
+                    ctx.fill();
+                    ctx.restore();
+                }
+
+                // Draw main particle
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+                ctx.restore();
+            }
+
+            update() {
+                this.x += this.velocity.x;
+                this.y += this.velocity.y;
+
+                // Add current position to trail
+                this.trail.push({ x: this.x, y: this.y, radius: this.radius, color: this.color, opacity: this.opacity });
+                if (this.trail.length > this.maxTrailLength) {
+                    this.trail.shift(); // Remove oldest trail point
+                }
+
+                // Fade out as particle approaches top
+                if (this.y < canvas.height / 4) {
+                    this.opacity -= 0.005; // Slightly faster fade for new particles
+                }
+
+                // Reset particle if it goes off screen or fades out
+                if (this.y + this.radius < 0 || this.opacity <= 0) {
+                    this.x = Math.random() * canvas.width;
+                    this.y = canvas.height + this.radius; // Reappear from bottom
+                    this.radius = Math.random() * 2.5 + 0.8; // Larger, more varied particles (0.8 to 3.3 pixels)
+                    this.opacity = 1;
+                    this.velocity.y = -(Math.random() * 1.2 + 0.2); // Faster upward speed
+                    this.velocity.x = (Math.random() - 0.5) * 0.4; // Increased horizontal drift
+                    this.color = particleColors[Math.floor(Math.random() * particleColors.length)]; // Pick random color from array
+                    this.trail = []; // Clear trail on reset
+                }
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                const radius = Math.random() * 2.5 + 0.8;
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                const color = particleColors[Math.floor(Math.random() * particleColors.length)];
+                const velocity = { x: (Math.random() - 0.5) * 0.4, y: -(Math.random() * 1.2 + 0.2) };
+                particles.push(new Particle(x, y, radius, color, velocity));
+            }
+        }
+
+        function animateParticles() {
+            requestAnimationFrame(animateParticles);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+        }
+
+        window.onload = function() {
+            initParticles();
+            animateParticles();
+        };
+
+        // --- MIT License Popup Logic ---
+        const openMitLicenseBtn = document.getElementById('openMitLicenseBtn');
+        const mitLicensePopupBackdrop = document.getElementById('mitLicensePopupBackdrop');
+        const closeMitLicenseBtn = document.getElementById('closeMitLicenseBtn');
+
+        // Function to open the popup
+        openMitLicenseBtn.addEventListener('click', () => {
+            mitLicensePopupBackdrop.classList.add('show');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        });
+
+        // Function to close the popup
+        closeMitLicenseBtn.addEventListener('click', () => {
+            mitLicensePopupBackdrop.classList.remove('show');
+            document.body.style.overflow = ''; // Restore background scrolling
+        });
+
+        // Close popup if backdrop is clicked (optional, but good UX)
+        mitLicensePopupBackdrop.addEventListener('click', (event) => {
+            if (event.target === mitLicensePopupBackdrop) {
+                mitLicensePopupBackdrop.classList.remove('show');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Close popup with Escape key
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && mitLicensePopupBackdrop.classList.contains('show')) {
+                mitLicensePopupBackdrop.classList.remove('show');
+                document.body.style.overflow = '';
+            }
+        });
+    </script>
+</body>
+</html>
